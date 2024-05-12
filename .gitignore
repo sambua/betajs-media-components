@@ -3,6 +3,7 @@
 /.idea
 /.eslintrc.js
 /.vscode
+/.npm
 .DS_Store
 .sass-cache
 node_modules
