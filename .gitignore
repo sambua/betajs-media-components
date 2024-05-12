@@ -3,6 +3,7 @@
 /.idea
 /.eslintrc.js
 /.vscode
+/.npm
 .DS_Store
 .sass-cache
 node_modules
@@ -19,7 +20,5 @@ google-translate-creds.json
 /demos/tmp/
 .history
 *.log
-package-lock.json
 /demos/kargo/
-/pnpm-lock.yaml
 tests/playwright/.cache/

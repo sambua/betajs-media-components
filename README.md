@@ -5,7 +5,7 @@
 
 BetaJS-Media-Components is a JavaScript media UI components framework
 
-
+Coms
 
 ## Getting Started
 
@@ -21,7 +21,7 @@ You can use the library in the browser and compile it as well.
 	<script src="betajs-media/dist/betajs-media.min.js"></script>
 	<script src="betajs-dynamics/dist/betajs-dynamics.min.js"></script>
 	<script src="betajs-media-components/dist/betajs-media-components.min.js"></script>
-``` 
+```
 
 #### Compile
 
@@ -55,7 +55,7 @@ The icons in this library depend on Fontello. In order to update the icons / add
 ```js
 
     BetaJS.Dynamics.Dynamic.activate();
-    
+
 ```
 
 
@@ -66,9 +66,9 @@ The icons in this library depend on Fontello. In order to update the icons / add
 | Homepage   | [https://betajs.com](https://betajs.com) |
 | Git        | [git://github.com/betajs/betajs-media-components.git](git://github.com/betajs/betajs-media-components.git) |
 | Repository | [https://github.com/betajs/betajs-media-components](https://github.com/betajs/betajs-media-components) |
-| Blog       | [https://blog.betajs.com](https://blog.betajs.com) | 
-| Twitter    | [https://twitter.com/thebetajs](https://twitter.com/thebetajs) | 
-| Gitter     | [https://gitter.im/betajs/betajs-media-components](https://gitter.im/betajs/betajs-media-components) | 
+| Blog       | [https://blog.betajs.com](https://blog.betajs.com) |
+| Twitter    | [https://twitter.com/thebetajs](https://twitter.com/thebetajs) |
+| Gitter     | [https://gitter.im/betajs/betajs-media-components](https://gitter.im/betajs/betajs-media-components) |
 
 
 
@@ -139,5 +139,3 @@ This software may include modified and unmodified portions of:
 
 - Ziggeo
 - Browserstack
-
-
