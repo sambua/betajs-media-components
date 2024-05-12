@@ -82,7 +82,7 @@ jobs:
     # needs: [ build ]
     continue-on-error: false
     runs-on: macos-latest
-    docker:
+    container:
       image: mcr.microsoft.com/playwright:v1.44.0-jammy
     strategy:
       matrix:
