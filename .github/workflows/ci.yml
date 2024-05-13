@@ -137,6 +137,7 @@ jobs:
      - name: Get OS name
        id: os
        uses: ./.github/actions/get-os-name
+
      - name: Install dependencies and global packages via npm package manager
        id: node
        if: ${{ needs.build.cache-hit == 'false' }}

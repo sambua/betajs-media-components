@@ -72,7 +72,6 @@ runs:
 
     - name: Setup browser chrome version ${{ inputs.chrome-version }}
       id: setup-chrome
-      shell: bash
       uses: browser-actions/setup-chrome@v1
       with:
         os: ${{ inputs.os }}
