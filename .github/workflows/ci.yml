@@ -109,11 +109,11 @@ jobs:
       #   id: local-server
       #   uses: ./.github/actions/local-server
 
-      - name: Check the server is running
-        uses: jtalk/url-health-check-action@v4
-        with:
-          url: http://localhost:${{ steps.local-server.outputs.port }}/tests/playwright/html/player.html
-          max-attempts: 3
+      # - name: Check the server is running
+      #   uses: jtalk/url-health-check-action@v4
+      #   with:
+      #     url: http://localhost:${{ steps.local-server.outputs.port }}/tests/playwright/html/player.html
+      #     max-attempts: 3
 
       - name: Run Playwright
         uses: ./.github/actions/playwright-test
