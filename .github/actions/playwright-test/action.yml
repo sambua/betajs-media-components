@@ -95,7 +95,7 @@ runs:
         PLAYWRIGHT_BROWSERS_PATH: ''
         PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
-        PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: 'true'
+        PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: 'false'
 
     - name: Run Playwright on Non Linux OS
       if: ${{ !contains(runner.os, 'Linux') }}
@@ -108,7 +108,7 @@ runs:
         PLAYWRIGHT_BROWSERS_PATH: ''
         PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
-        PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: 'true'
+        PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: 'false'
 
 #      npm install @playwright/test
 #      npm install --global http-server

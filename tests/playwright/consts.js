@@ -1,4 +1,4 @@
-export const PLAYER_URI = '/static/tests/playwright/html/player.html';
+export const PLAYER_URI = '/tests/playwright/html/player.html';
 export const ASSETS_PATH = './tests/playwright/static/demos/assets';
 // https://support.google.com/admanager/answer/10678356?hl=en#omid_p
 // https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/master/AdCOM%20v1.0%20FINAL.md#list_apiframeworks
