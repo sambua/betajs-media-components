@@ -77,6 +77,11 @@ jobs:
       - name: build component
         uses: ./.github/actions/build-component
 
+      - name: Install docker for macos
+        run: |
+          brew install docker
+          colima start
+
   e2e-tests:
     timeout-minutes: 60
     # needs: [ build ]
@@ -120,11 +125,6 @@ jobs:
 
      - name: Checkout
        uses: actions/checkout@v4
-     - name: Install docker for macos
-       if: runner.os == 'macos'
-       run: |
-         brew install docker
-         colima start
      - name: Run Playwright via Docker container
        id: playwright-image
        uses: ./.github/actions/playwright-image
