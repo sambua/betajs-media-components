@@ -6,10 +6,6 @@ inputs:
     description: Project which will run on testing
     default: chromium
     required: true
-  os:
-    description: 'Operating system, allowed: ubuntu, windows or macos'
-    default: 'macos'
-    required: false
   chrome-version:
     description: 'Chrome version on which all will be tested. Note: canary not supported by linux'
     default: latest
@@ -74,7 +70,6 @@ runs:
       id: setup-chrome
       uses: browser-actions/setup-chrome@v1
       with:
-        os: ${{ inputs.os }}
         chrome-version: ${{ inputs.chrome-version }}
         install-dependencies: true
 

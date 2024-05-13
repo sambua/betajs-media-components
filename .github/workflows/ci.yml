@@ -134,10 +134,6 @@ jobs:
        id: date
        uses: ./.github/actions/today
 
-     - name: Get OS name
-       id: os
-       uses: ./.github/actions/get-os-name
-
      - name: Install dependencies and global packages via npm package manager
        id: node
        if: ${{ needs.build.cache-hit == 'false' }}
@@ -156,7 +152,6 @@ jobs:
        uses: ./.github/actions/playwright-test
        with:
          project: ${{ matrix.project }}
-         os: ${{ steps.os.outputs.name }}
          port: ${{ steps.local-server.outputs.port }}
          chrome-version: ${{ matrix.chrome-version }}
 
