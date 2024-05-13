@@ -90,7 +90,7 @@ module.exports = defineConfig({
     webServer: {
       // npm install -g http-server &&
       // command: `http-server ./ -p ${PORT}`, //  > http-server.log 2>&1 &
-      command: `node ../../node_modules/nano-media-server/server.js --staticserve . --port='${PORT}'`,
+      command: `node ../../node_modules/nano-media-server/server.js --staticserve . --port='${PORT}' > http-server.log 2>&1 &`,
       url: `http://127.0.0.1:${PORT}`,
       reuseExistingServer: !process.env.CI,
     },
