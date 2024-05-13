@@ -77,6 +77,11 @@ jobs:
       - name: build component
         uses: ./.github/actions/build-component
 
+
+  install-deps:
+    timeout-minutes: 10
+    runs-on: macos-latest
+    steps:
       - name: Install docker for macos
         run: |
           brew install docker
@@ -84,7 +89,7 @@ jobs:
 
   e2e-tests:
     timeout-minutes: 60
-    # needs: [ build ]
+    needs: [ build, install-deps ]
     continue-on-error: false
     runs-on: macos-latest
     container:
