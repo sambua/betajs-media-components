@@ -22,17 +22,17 @@ inputs:
 runs:
   using: composite
   steps:
-    # - name: Install local web server via http-server package and run in the background
-    #   shell: bash
-    #   run: |
-    #     npm install --global http-server
-    #     http-server ./ -p ${{ inputs.port }} > http-server.log 2>&1 &
-    #     echo "Local server is running on http://localhost:${{ inputs.port }}"
-
-    - name: Run nanon media server
+    - name: Install local web server via http-server package and run in the background
       shell: bash
       run: |
-          node node_modules/nano-media-server/server.js --staticserve . --port='${{inputs.port }} > http-server.log 2>&1 &'
+        npm install --global http-server
+        http-server ./ -p ${{ inputs.port }} > http-server.log 2>&1 &
+        echo "Local server is running on http://localhost:${{ inputs.port }}"
+
+    # - name: Run nanon media server
+    #   shell: bash
+    #   run: |
+    #       node node_modules/nano-media-server/server.js --staticserve . --port='${{inputs.port }} > nano-server.log 2>&1 &'
 
 
     # - name: Get Running server PID on macos
