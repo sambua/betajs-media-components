@@ -12,7 +12,7 @@ outputs:
 inputs:
   port:
     description: 'Port where local server will be run, should be the same as .env.actions'
-    default: 5000
+    default: '5000'
     required: false
   os:
     description: 'Operating system, allowed: ubuntu, windows or macos'
