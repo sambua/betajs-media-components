@@ -109,12 +109,18 @@ jobs:
         id: local-server
         uses: ./.github/actions/local-server
 
-      - name: Run Playwright tests
-        # parallel: ${{ inputs.parallel }}
-        # npm ci
-        shell: bash
-        run: |
-          npx playwright test --project=${{ matrix.project }} --config ./tests/playwright/config.js
+      - name: Run Playwright
+        uses: ./.github/actions/playwright-test
+        with:
+          project: ${{ matrix.project }}
+          port: ${{ steps.local-server.outputs.port }}
+          chrome-version: ${{ matrix.chrome-version }}
+
+
+      # - name: Run Playwright tests
+      #   shell: bash
+      #   run: |
+      #     npx playwright test --project=${{ matrix.project }} --config ./tests/playwright/config.js
        # env:
        #   HOME: /root
 
