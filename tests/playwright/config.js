@@ -6,6 +6,8 @@ const { defineConfig, devices } = require('@playwright/test');
  */
 // require('dotenv').config();
 
+const PORT = process.env.PLAYWRIGHT_PORT || 5000;
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -86,8 +88,8 @@ module.exports = defineConfig({
 
     /* Run your local dev server before starting the tests */
     webServer: {
-      command: 'npm run start',
-      url: 'http://127.0.0.1:3000',
+      command: `http-server ./ -p ${PORT}`, //  > http-server.log 2>&1 &
+      url: `http://127.0.0.1:${PORT}`,
       reuseExistingServer: !process.env.CI,
     },
 });
