@@ -83,10 +83,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Install docker for macos
-        run: |
-          brew install docker
-          colima start
-
+        run: brew install docker
   e2e-tests:
     timeout-minutes: 60
     needs: [ build, install-deps ]
