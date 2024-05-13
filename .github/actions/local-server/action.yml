@@ -4,7 +4,7 @@ description: 'Run local server for testing'
 outputs:
   pid:
     description: 'Process ID of the local server'
-    value: ${{ steps.get-pid.outputs.pid }}
+    value: ${{ steps.get-pid.outputs.pid || steps.get-linux-pid.outputs.pid }}
   port:
     description: 'Port where local server is running'
     value: ${{ inputs.port }}
@@ -37,7 +37,7 @@ runs:
         echo "pid=$(ps aux | grep http-server | grep -v grep | awk '{print $2}')" >> $GITHUB_OUTPUT
 
     - name: Get Running server PID
-      id: get-pid
+      id: get-linux-pid
       shell: bash
       if: ${{ inputs.os == 'linux' }}
       run: echo "pid=$(ps axl | grep http-server | awk '{print $8}')" >> $GITHUB_OUTPUT
