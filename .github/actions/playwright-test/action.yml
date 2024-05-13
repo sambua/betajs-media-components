@@ -28,6 +28,7 @@ runs:
   steps:
     - name: Get installed Playwright version
       id: playwright-version
+      shell: bash
       run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")" >> $GITHUB_ENV
 
     - name: Cache playwright binaries
@@ -40,14 +41,17 @@ runs:
         key: "${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}"
         restore-keys: "${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}"
         save-always: true
+
     - name: Install Playwright Test Package
       if: steps.playwright-cache.outputs.cache-hit != 'true'
+      shell: bash
       # as PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD not works as expected --with-deps chromium also included, not to install all browsers
       run: |
         npm install @playwright/test --cache ~/.cache/ms-playwright
         PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npx playwright install --with-deps chromium
 
     - name: Eco some information
+      shell: bash
       run: |
         echo "PLAYWRIGHT_VERSION: $PLAYWRIGHT_VERSION"
         echo "RUNNER_OS: $RUNNER_OS"
@@ -66,9 +70,9 @@ runs:
     #        npm install @playwright/test
     #        npx playwright install --with-deps chromium
 
-    - name: Setup Local Browser
-      displayName: 'Running tests on chrome version ${{ inputs.chrome-version }}'
+    - name: Setup browser chrome version ${{ inputs.chrome-version }}
       id: setup-chrome
+      shell: bash
       uses: browser-actions/setup-chrome@v1
       with:
         os: ${{ inputs.os }}
@@ -77,14 +81,16 @@ runs:
 
     - name: Check Chrome version
       # chrome --version on ubuntu only
+      shell: bash
       run: |
         echo "Chrome Launch Path: ${{ steps.setup-chrome.outputs.chrome-path }}"
 
     - name: Run Playwright on Linux
       if: ${{ contains(runner.os, 'Linux') }}
+      shell: bash
       run: xvfb-run npx playwright test --project=${{ inputs.project }} --config ${{ inputs.config-file }}
       env:
-        CI: false
+        CI: 'false'
         PLAYWRIGHT_OS: ${{ inputs.os }}
         PLAYWRIGHT_PORT: ${{ inputs.port }}
         PLAYWRIGHT_BROWSERS_PATH: ''
@@ -97,7 +103,7 @@ runs:
       shell: bash
       run: DEBUG=pw:browser npx playwright test --project=${{ inputs.project }} --config ${{ inputs.config-file }}
       env:
-        CI: false
+        CI: 'true'
         PLAYWRIGHT_OS: ${{ inputs.os }}
         PLAYWRIGHT_PORT: ${{ inputs.port }}
         PLAYWRIGHT_BROWSERS_PATH: ''
