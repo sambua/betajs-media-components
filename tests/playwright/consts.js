@@ -13,7 +13,7 @@ export const SAMPLE_2_VIDEO_POSTER = '/static/demos/assets/portrait-poster.png';
 export const SAMPLE_3_VIDEO_PATH = '/static/demos/sample-video2.mp4';
 export const SAMPLE_3_VIDEO_POSTER = '/static/demos/sample-cover2.png';
 export const CHROME_LOCATION = `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`;
-export const CHROME_CANARY_LOCATION = `/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary`;
+export const CHROME_CANARY_LOCATION = process.env.PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH || `/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary`;
 
 export const defaultPlayerAttributes = {
     source: SAMPLE_VIDEO_PATH,
