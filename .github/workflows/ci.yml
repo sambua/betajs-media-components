@@ -48,7 +48,7 @@ on:
 jobs:
   build:
     timeout-minutes: 10
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     outputs:
       node-version: ${{ matrix.node-version }}
       cache-hit: ${{ steps.node.outputs.cache-hit }}
@@ -81,7 +81,7 @@ jobs:
     timeout-minutes: 60
     # needs: [ build ]
     continue-on-error: false
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.44.0-jammy
     strategy:
