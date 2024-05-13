@@ -2,9 +2,9 @@ name: Run Local Server
 description: 'Run local server for testing'
 
 outputs:
-  pid:
-    description: 'Process ID of the local server'
-    value: ${{ steps.get-pid.outputs.pid || steps.get-linux-pid.outputs.pid }}
+  # pid:
+  #   description: 'Process ID of the local server'
+  #   value: ${{ steps.get-pid.outputs.pid || steps.get-linux-pid.outputs.pid }}
   port:
     description: 'Port where local server is running'
     value: ${{ inputs.port }}
@@ -29,18 +29,18 @@ runs:
         http-server ./ -p ${{ inputs.port }} > http-server.log 2>&1 &
         echo "Local server is running on http://localhost:${{ inputs.port }}"
 
-    - name: Get Running server PID on macos
-      id: get-pid
-      shell: bash
-      if: ${{ inputs.os == 'macos' }}
-      run: |
-        echo "pid=$(ps aux | grep http-server | grep -v grep | awk '{print $2}')" >> $GITHUB_OUTPUT
+    # - name: Get Running server PID on macos
+    #   id: get-pid
+    #   shell: bash
+    #   if: ${{ inputs.os == 'macos' }}
+    #   run: |
+    #     echo "pid=$(ps aux | grep http-server | grep -v grep | awk '{print $2}')" >> $GITHUB_OUTPUT
 
-    - name: Get Running server PID
-      id: get-linux-pid
-      shell: bash
-      if: ${{ inputs.os == 'linux' }}
-      run: echo "pid=$(ps axl | grep http-server | awk '{print $8}')" >> $GITHUB_OUTPUT
+    # - name: Get Running server PID
+    #   id: get-linux-pid
+    #   shell: bash
+    #   if: ${{ inputs.os == 'linux' }}
+    #   run: echo "pid=$(ps axl | grep http-server | awk '{print $8}')" >> $GITHUB_OUTPUT
 
 #    - name: Check the server is running
 #      uses: jtalk/url-health-check-action@v4
