@@ -35,12 +35,13 @@ runs:
 #      using: docker://mcr.microsoft.com/playwright:v1.43.0-jammy
       # image: mcr.microsoft.com/playwright:v1.43.0-jammy
       # parallel: ${{ inputs.parallel }}
-      script:
+      shell: bash
+      run: |
         - npm ci
-        - npx playwright test --project=${{ inputs.project }} --config ${{ inputs.config-file }}
+        - npx playwright test --project=${{ inputs.project }} --trace on --config ${{ inputs.config-file }}
       env:
-        HOME: /root
-#        CI: false
+        CI: 'true'
+        # HOME: /root
 
 #      shell: bash
 #      script: echo "Run Playwright tests parallel- ${{ inputs.parallel }}"
