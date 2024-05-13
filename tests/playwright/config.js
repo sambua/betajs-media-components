@@ -88,6 +88,7 @@ module.exports = defineConfig({
 
     /* Run your local dev server before starting the tests */
     webServer: {
+      // npm install -g http-server &&
       command: `http-server ./ -p ${PORT}`, //  > http-server.log 2>&1 &
       url: `http://127.0.0.1:${PORT}`,
       reuseExistingServer: !process.env.CI,

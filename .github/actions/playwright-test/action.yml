@@ -47,18 +47,13 @@ runs:
         npm install @playwright/test
         PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npx playwright install --with-deps chromium
 
-    - name: Eco some information
-      shell: bash
-      run: |
-        echo "PLAYWRIGHT_VERSION: $PLAYWRIGHT_VERSION"
-        echo "RUNNER_OS: $RUNNER_OS"
-        echo "LIST SEC: $(ls -la /root/.cache/ms-playwright/chromium-1117/chrome-linux)"
+    # - name: Eco some information
+    #   shell: bash
+    #   run: |
+    #     echo "PLAYWRIGHT_VERSION: $PLAYWRIGHT_VERSION"
+    #     echo "RUNNER_OS: $RUNNER_OS"
+    #     echo "LIST SEC: $(ls -la /root/.cache/ms-playwright/chromium-1117/chrome-linux)"
 
-    - name: Show List
-      if: ${{ contains(runner.os, 'macOS') }}
-      shell: bash
-      run: |
-        ls -la /Users/runner/Library/Caches/ms-playwright/chromium-1117
 
       # /Users/runner/Library/Caches/ms-playwright/chromium-1117/chrome-linux
       # /Users/runner/Library/Caches/ms-playwright/chromium-1117/chrome-mac
