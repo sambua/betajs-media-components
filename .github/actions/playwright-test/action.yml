@@ -27,23 +27,24 @@ runs:
       shell: bash
       run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")" >> $GITHUB_ENV
 
-    - name: Cache playwright binaries
-      uses: actions/cache@v4
-      id: playwright-cache
-      with:
-        path: |
-          ~/.cache/ms-playwright
-          /root/.cache/ms-playwright
-        key: "${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}"
-        restore-keys: "${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}"
-        save-always: true
+    # - name: Cache playwright binaries
+    #   uses: actions/cache@v4
+    #   id: playwright-cache
+    #   with:
+    #     path: |
+    #       ~/.cache/ms-playwright
+    #       /root/.cache/ms-playwright
+    #     key: "${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}"
+    #     restore-keys: "${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}"
+    #     save-always: true
 
     - name: Install Playwright Test Package
-      if: steps.playwright-cache.outputs.cache-hit != 'true'
+      # if: steps.playwright-cache.outputs.cache-hit != 'true'
       shell: bash
       # as PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD not works as expected --with-deps chromium also included, not to install all browsers
+      # --cache ~/.cache/ms-playwright
       run: |
-        npm install @playwright/test --cache ~/.cache/ms-playwright
+        npm install @playwright/test
         PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npx playwright install --with-deps chromium
 
     - name: Eco some information
@@ -51,8 +52,6 @@ runs:
       run: |
         echo "PLAYWRIGHT_VERSION: $PLAYWRIGHT_VERSION"
         echo "RUNNER_OS: $RUNNER_OS"
-        echo "PLAYWRIGHT_CACHE_HIT: ${{ steps.playwright-cache.outputs.cache-hit }}"
-        echo "PLAYWRIGHT_CACHE_KEY: ${{ steps.playwright-cache.outputs.cache-key }}"
         echo "LIST SEC: $(ls -la /root/.cache/ms-playwright/chromium-1117/chrome-linux)"
 
     #    - run: npx playwright install-deps
