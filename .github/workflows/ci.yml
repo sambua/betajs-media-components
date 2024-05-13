@@ -79,7 +79,10 @@ jobs:
 
       - name: List all
         shell: bash
-        run: ls -la
+        run: |
+          npm list
+          npm list -g --depth=0
+          ls -la
 
   # e2e-tests:
   #   timeout-minutes: 60
