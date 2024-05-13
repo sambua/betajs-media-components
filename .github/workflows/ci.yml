@@ -118,14 +118,14 @@ jobs:
 #        env:
 #          HOME: /root
 
-     - name: Checkout
-       uses: actions/checkout@v4
-     - name: Run Playwright via Docker container
-       id: local-server
-       uses: ./.github/actions/playwright-image
-       with:
-         project: ${{ matrix.project }}
-         node-version: ${{ matrix.node-version }}
+     # - name: Checkout
+     #   uses: actions/checkout@v4
+     # - name: Run Playwright via Docker container
+     #   id: playwright-image
+     #   uses: ./.github/actions/playwright-image
+     #   with:
+     #     project: ${{ matrix.project }}
+     #     node-version: ${{ matrix.node-version }}
 
      - name: Checkout
        uses: actions/checkout@v4
