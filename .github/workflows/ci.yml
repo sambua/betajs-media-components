@@ -48,7 +48,7 @@ on:
 jobs:
   build:
     timeout-minutes: 10
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     outputs:
       node-version: ${{ matrix.node-version }}
       cache-hit: ${{ steps.node.outputs.cache-hit }}
@@ -81,88 +81,88 @@ jobs:
     timeout-minutes: 60
     # needs: [ build ]
     continue-on-error: false
-    runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.44.0-jammy
+    runs-on: macos-latest
+    # container:
+    #   image: mcr.microsoft.com/playwright:v1.44.0-jammy
     strategy:
       matrix:
         project: [ chromium ]
         chrome-version: [ latest ] # latest, stable, beta, dev, canary or number like: 119 or 120.0.6099 (https://googlechromelabs.github.io/chrome-for-testing/)
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
+      # - uses: actions/checkout@v4
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '18.x'
 
-      - name: Install dependencies and global packages via npm package manager
-        id: node
-        uses: ./.github/actions/install-dependencies
-        with:
-          version: '18.x'
-          pkg-manager: 'npm'
-          use-cache: 'false'
+      # - name: Install dependencies and global packages via npm package manager
+      #   id: node
+      #   uses: ./.github/actions/install-dependencies
+      #   with:
+      #     version: '18.x'
+      #     pkg-manager: 'npm'
+      #     use-cache: 'false'
 
-      - name: build component
-        uses: ./.github/actions/build-component
+      # - name: build component
+      #   uses: ./.github/actions/build-component
 
-      - name: Run Local Server
-        id: local-server
-        uses: ./.github/actions/local-server
+      # - name: Run Local Server
+      #   id: local-server
+      #   uses: ./.github/actions/local-server
 
-      - name: Run Playwright tests
-        # parallel: ${{ inputs.parallel }}
-        # npm ci
-        shell: bash
-        run: |
-          npx playwright test --project=${{ matrix.project }} --config ./tests/playwright/config.js
+      # - name: Run Playwright tests
+      #   # parallel: ${{ inputs.parallel }}
+      #   # npm ci
+      #   shell: bash
+      #   run: |
+      #     npx playwright test --project=${{ matrix.project }} --config ./tests/playwright/config.js
 #        env:
 #          HOME: /root
 
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#      - name: Run Playwright via Docker container
-#        id: local-server
-#        uses: ./.github/actions/playwright-image
-#        with:
-#          project: ${{ matrix.project }}
-#          node-version: ${{ matrix.node-version }}
+     - name: Checkout
+       uses: actions/checkout@v4
+     - name: Run Playwright via Docker container
+       id: local-server
+       uses: ./.github/actions/playwright-image
+       with:
+         project: ${{ matrix.project }}
+         node-version: ${{ matrix.node-version }}
 
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#
-#      - name: Set today value
-#        id: date
-#        uses: ./.github/actions/today
-#
-#      - name: Get OS name
-#        id: os
-#        uses: ./.github/actions/get-os-name
-#      - name: Install dependencies and global packages via npm package manager
-#        id: node
-#        if: ${{ needs.build.cache-hit == 'false' }}
-#        uses: ./.github/actions/install-dependencies
-#        with:
-#          version: ${{ matrix.node-version }}
-#          pkg-manager: ${{ matrix.pkg-manager }}
-#          cache-key: ${{ needs.build.cache-key }}
-#          use-cache: ${{ inputs.use-cache }}
+     - name: Checkout
+       uses: actions/checkout@v4
 
-#      - name: Run Local Server
-#        id: local-server
-#        uses: ./.github/actions/local-server
+     - name: Set today value
+       id: date
+       uses: ./.github/actions/today
 
-#      - name: Run Playwright
-#        uses: ./.github/actions/playwright-test
-#        with:
-#          project: ${{ matrix.project }}
-#          os: ${{ steps.os.outputs.name }}
-#          port: ${{ steps.local-server.outputs.port }}
-#          chrome-version: ${{ matrix.chrome-version }}
+     - name: Get OS name
+       id: os
+       uses: ./.github/actions/get-os-name
+     - name: Install dependencies and global packages via npm package manager
+       id: node
+       if: ${{ needs.build.cache-hit == 'false' }}
+       uses: ./.github/actions/install-dependencies
+       with:
+         version: ${{ matrix.node-version }}
+         pkg-manager: ${{ matrix.pkg-manager }}
+         cache-key: ${{ needs.build.cache-key }}
+         use-cache: ${{ inputs.use-cache }}
 
-#      - name: Print was success
-#        if: ${{ success() }}
-#        run: echo "We have passed all e2e tests"
-#
-#      - name: Print we have failed
-#        if: ${{ failure() }}
-#        run: echo "We have failed one for more e2e tests steps"
+     - name: Run Local Server
+       id: local-server
+       uses: ./.github/actions/local-server
+
+     - name: Run Playwright
+       uses: ./.github/actions/playwright-test
+       with:
+         project: ${{ matrix.project }}
+         os: ${{ steps.os.outputs.name }}
+         port: ${{ steps.local-server.outputs.port }}
+         chrome-version: ${{ matrix.chrome-version }}
+
+     - name: Print was success
+       if: ${{ success() }}
+       run: echo "We have passed all e2e tests"
+
+     - name: Print we have failed
+       if: ${{ failure() }}
+       run: echo "We have failed one for more e2e tests steps"
