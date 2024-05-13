@@ -60,6 +60,9 @@ runs:
       run: |
         ls -la /Users/runner/Library/Caches/ms-playwright/chromium-1117
 
+      # /Users/runner/Library/Caches/ms-playwright/chromium-1117/chrome-linux
+      # /Users/runner/Library/Caches/ms-playwright/chromium-1117/chrome-mac
+
     #    - run: npx playwright install-deps
     #      if: steps.playwright-cache.outputs.cache-hit == 'true'
 
@@ -78,11 +81,11 @@ runs:
     #     chrome-version: ${{ inputs.chrome-version }}
     #     install-dependencies: true
 
-    - name: Check Chrome version
-      # chrome --version on ubuntu only
-      shell: bash
-      run: |
-        echo "Chrome Launch Path: ${{ steps.setup-chrome.outputs.chrome-path }}"
+    # - name: Check Chrome version
+    #   # chrome --version on ubuntu only
+    #   shell: bash
+    #   run: |
+    #     echo "Chrome Launch Path: ${{ steps.setup-chrome.outputs.chrome-path }}"
 
     - name: Run Playwright on Linux
       if: ${{ contains(runner.os, 'Linux') }}
@@ -92,9 +95,9 @@ runs:
         CI: 'false'
         PLAYWRIGHT_OS: ${{ inputs.os }}
         PLAYWRIGHT_PORT: ${{ inputs.port }}
-        PLAYWRIGHT_BROWSERS_PATH: ''
-        PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
-        PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        # PLAYWRIGHT_BROWSERS_PATH: ''
+        # PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        # PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: 'false'
 
     - name: Run Playwright on Mac OS
@@ -105,9 +108,9 @@ runs:
         CI: 'true'
         PLAYWRIGHT_OS: ${{ inputs.os }}
         PLAYWRIGHT_PORT: ${{ inputs.port }}
-        PLAYWRIGHT_BROWSERS_PATH: ''
-        PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
-        PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        # PLAYWRIGHT_BROWSERS_PATH: ''
+        # PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        # PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: 'false'
 
 #      npm install @playwright/test
