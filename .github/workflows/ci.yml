@@ -105,9 +105,9 @@ jobs:
       # - name: build component
       #   uses: ./.github/actions/build-component
 
-      # - name: Run Local Server
-      #   id: local-server
-      #   uses: ./.github/actions/local-server
+      - name: Run Local Server
+        id: local-server
+        uses: ./.github/actions/local-server
 
       # - name: Check the server is running
       #   uses: jtalk/url-health-check-action@v4
