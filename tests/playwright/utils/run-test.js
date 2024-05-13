@@ -2,6 +2,7 @@ import { chromium } from '@playwright/test';
 
 export default async (args, func, browserSettings) => {
     const { page, browserName, browser, context } = args;
+    console.log(`Browser name: ${browserName} and settings:`, browserSettings);
     if (browserName === 'chromium') {
         await (async () => {
             // const browser = await firefox.launch();
