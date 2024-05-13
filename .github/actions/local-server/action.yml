@@ -12,7 +12,7 @@ outputs:
 inputs:
   port:
     description: 'Port where local server will be run, should be the same as .env.actions'
-    default: 5000
+    default: '5000'
     required: false
   os:
     description: 'Operating system, allowed: ubuntu, windows or macos'
@@ -22,12 +22,16 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Install local web server via http-server package and run in the background
+    - name: Run nanon media server
       shell: bash
       run: |
-        npm install --global http-server
-        http-server ./ -p ${{ inputs.port }} > http-server.log 2>&1 &
-        echo "Local server is running on http://localhost:${{ inputs.port }}"
+        node node_modules/nano-media-server/server.js --staticserve . --port='${{ inputs.port }}'
+    # - name: Install local web server via http-server package and run in the background
+    #   shell: bash
+    #   run: |
+    #     npm install --global http-server
+    #     http-server ./ -p ${{ inputs.port }} > http-server.log 2>&1 &
+    #     echo "Local server is running on http://localhost:${{ inputs.port }}"
 
     # - name: Get Running server PID on macos
     #   id: get-pid
