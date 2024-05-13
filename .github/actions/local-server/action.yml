@@ -22,12 +22,12 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Install local web server via http-server package and run in the background
-      shell: bash
-      run: |
-        npm install --global http-server
-        http-server ./ -p ${{ inputs.port }} > http-server.log 2>&1 &
-        echo "Local server is running on http://localhost:${{ inputs.port }}"
+    # - name: Install local web server via http-server package and run in the background
+    #   shell: bash
+    #   run: |
+    #     npm install --global http-server
+    #     http-server ./ -p ${{ inputs.port }} > http-server.log 2>&1 &
+    #     echo "Local server is running on http://localhost:${{ inputs.port }}"
 
     - name: Run nanon media server
       shell: bash
