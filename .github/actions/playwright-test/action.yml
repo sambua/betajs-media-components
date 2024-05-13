@@ -54,6 +54,12 @@ runs:
         echo "RUNNER_OS: $RUNNER_OS"
         echo "LIST SEC: $(ls -la /root/.cache/ms-playwright/chromium-1117/chrome-linux)"
 
+    - name: Show List
+      if: ${{ contains(runner.os, 'macOS') }}
+      shell: bash
+      run: |
+        ls -la /Users/runner/Library/Caches/ms-playwright/chromium-1117
+
     #    - run: npx playwright install-deps
     #      if: steps.playwright-cache.outputs.cache-hit == 'true'
 
@@ -65,12 +71,12 @@ runs:
     #        npm install @playwright/test
     #        npx playwright install --with-deps chromium
 
-    - name: Setup browser chrome version ${{ inputs.chrome-version }}
-      id: setup-chrome
-      uses: browser-actions/setup-chrome@v1
-      with:
-        chrome-version: ${{ inputs.chrome-version }}
-        install-dependencies: true
+    # - name: Setup browser chrome version ${{ inputs.chrome-version }}
+    #   id: setup-chrome
+    #   uses: browser-actions/setup-chrome@v1
+    #   with:
+    #     chrome-version: ${{ inputs.chrome-version }}
+    #     install-dependencies: true
 
     - name: Check Chrome version
       # chrome --version on ubuntu only
@@ -91,8 +97,8 @@ runs:
         PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: 'false'
 
-    - name: Run Playwright on Non Linux OS
-      if: ${{ !contains(runner.os, 'Linux') }}
+    - name: Run Playwright on Mac OS
+      if: ${{ contains(runner.os, 'macOS') }}
       shell: bash
       run: DEBUG=pw:browser npx playwright test --project=${{ inputs.project }} --config ${{ inputs.config-file }}
       env:
