@@ -24,7 +24,7 @@ test.describe('Unmute on click behave', () => {
         // args: [`--user-data-dir="/tmp/chrome_dev_test"`, '--disable-web-security'],
         headless: false, // If headless is true, player will start with user interaction
         devtools: true,
-        executablePath: CHROME_CANARY_LOCATION,
+        // executablePath: CHROME_CANARY_LOCATION,
     }
 
     test.describe.configure({
