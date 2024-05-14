@@ -8,9 +8,9 @@ export default async (args, func, browserSettings) => {
     const { page, browserName, browser, context } = args;
 
     if (!CI && (CHROME_CANARY_LOCATION || CHROME_LOCATION)) {
-      browserSettings.executablePath = CHROME_CANARY_LOCATION || CHROME_LOCATION;
     }
 
+    browserSettings.executablePath = CHROME_CANARY_LOCATION || CHROME_LOCATION;
     console.log(`Will run with: exe `, browserSettings);
 
     if (browserName === 'chromium') {
