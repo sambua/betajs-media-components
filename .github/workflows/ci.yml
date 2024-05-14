@@ -60,7 +60,7 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     outputs:
-      chrome-launcher: ${{ steps.chrome-install.outputs.CHROME_INSTALL_PATH }}
+      chrome-launcher: ${{ env.CHROME_INSTALL_PATH }}
     steps:
       - uses: actions/checkout@v4
       - name: Install Chrome on Linux
@@ -94,7 +94,7 @@ jobs:
           pkg-manager: 'npm'
           use-cache: 'false'
 
-      - name: Run Playwright
+      - name: Run Playwright via ${{ needs.install-chrome.outputs.chrome-launcher }}
         uses: ./.github/actions/playwright-test
         with:
           project: ${{ matrix.project }}
@@ -122,4 +122,4 @@ jobs:
           use-cache: ${{ inputs.use-cache }}
 
       - name: Run unit tests
-        uses: ./.github/actions/run-unit-tests
+        uses: ./.github/actions/unit-tests
