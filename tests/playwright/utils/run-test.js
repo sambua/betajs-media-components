@@ -11,6 +11,8 @@ export default async (args, func, browserSettings) => {
       browserSettings.executablePath = CHROME_CANARY_LOCATION || CHROME_LOCATION;
     }
 
+    console.log(`Will run with: exe `, browserSettings);
+
     if (browserName === 'chromium') {
         await (async () => {
             // const browser = await firefox.launch();

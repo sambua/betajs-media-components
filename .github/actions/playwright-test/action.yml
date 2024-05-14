@@ -45,7 +45,7 @@ runs:
       # --cache ~/.cache/ms-playwright
       run: |
         npm install @playwright/test
-        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npx playwright install
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npx playwright install --with-deps chromium
 
     # - name: Eco some information
     #   shell: bash
