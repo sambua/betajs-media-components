@@ -59,6 +59,12 @@ test.describe('Unmute on click behave', () => {
             expect(unmuteOnClick).toBeTruthy();
 
             if (!hasAdsSource) throw new Error(`We need ad tag URL to proceed`);
+
+            const h2Header = await page.getByTestId(`h2-header`);
+            expect(h2Header).toBeVisible();
+            console.log(`h2Header is visible.... but Video not...`);
+
+
             const playerContainer = await page.getByTestId(`${dataTestId}-player-container`);
             const contentPlayerContainer = await page.getByTestId(`${dataTestId}-content-player-container`);
 

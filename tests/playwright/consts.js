@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-export const PLAYER_URI = `/static/tests/playwright/html/static-player.html`;
+export const PLAYER_URI = `/static/tests/playwright/html/player.html`;
 export const SAMPLE_VIDEO_PATH = '/static/demos/sample-video.mp4';
 export const SAMPLE_VIDEO_POSTER = '/static/demos/assets/sample-cover.png';
 export const SAMPLE_2_VIDEO_PATH = '/static/demos/assets/portrait.mp4';
