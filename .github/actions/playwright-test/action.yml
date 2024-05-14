@@ -89,6 +89,7 @@ runs:
       id: chrome-install
       shell: bash
       run: |
+        chmod +x .github/scripts/install-chrome.sh
         .github/scripts/install-chrome.sh
         echo "CHROME_INSTALL_PATH=/usr/bin/google-chrome-stable" >> $GITHUB_ENV
         echo "$(which google-chrome-stable)"
