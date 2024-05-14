@@ -70,19 +70,32 @@ runs:
     #        npm install @playwright/test
     #        npx playwright install --with-deps chromium
 
-    # install-dependencies: supported only with linux system
-    - name: Setup browser chrome version ${{ inputs.chrome-version }}
-      id: setup-chrome
-      uses: sambua/setup-chrome-action@v2rl
-      with:
-        chrome-version: ${{ inputs.chrome-version }}
-        install-dependencies: true
+    # install-dependencies: supported only with linux sytem
+    # - name: Setup browser chrome version ${{ inputs.chrome-version }}
+    #   id: setup-chrome
+    #   uses: browser-actions/setup-chrome@v1
+    #   with:
+    #     chrome-version: ${{ inputs.chrome-version }}
+    #     install-dependencies: true
 
-    - name: Check Chrome version
-      # chrome --version on ubuntu only
+    # - name: Check Chrome version
+    #   # chrome --version on ubuntu only
+    #   shell: bash
+    #   run: |
+    #     echo "Chrome Launch Path: ${{ steps.setup-chrome.outputs.chrome-path }}"
+
+    - name: Install cheom on Linux
+      if: ${{ contains(runner.os, 'Linux') }}
+      id: chrome-install
       shell: bash
       run: |
-        echo "Chrome Launch Path: ${{ steps.setup-chrome.outputs.chrome-path }}"
+        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+        sudo sh -c 'echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+        sudo apt-get update
+        sudo apt-get install google-chrome-stable
+        echo "CHROME_INSTALL_PATH=$(whereis google-chrome-stable)" >> $GITHUB_ENV
+        echo $(which google-chrome-stable)
+        echo $(whereis google-chrome-stable)
 
     - name: Run Playwright on Linux
       if: ${{ contains(runner.os, 'Linux') }}
@@ -92,8 +105,10 @@ runs:
         CI: 'true'
         PLAYWRIGHT_PORT: ${{ inputs.port }}
         PLAYWRIGHT_BROWSERS_PATH: ''
-        PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
-        PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ env.CHROME_INSTALL_PATH }}
+        PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ env.CHROME_INSTALL_PATH }}
+        # PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        # PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: 'false'
 
     - name: Run Playwright on Mac OS
