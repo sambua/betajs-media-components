@@ -112,7 +112,9 @@ runs:
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
-        path: tests/playwright/reports/
+        path: |
+          tests/playwright/output/
+          tests/playwright/reports/
         retention-days: 30
 
 #      npm install @playwright/test
