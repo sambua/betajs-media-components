@@ -88,7 +88,7 @@ runs:
       shell: bash
       run: xvfb-run npx playwright test --project=${{ inputs.project }} --config ${{ inputs.config-file }}
       env:
-        CI: 'false'
+        CI: 'true'
         PLAYWRIGHT_PORT: ${{ inputs.port }}
         # PLAYWRIGHT_BROWSERS_PATH: ''
         # PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
@@ -101,12 +101,13 @@ runs:
       # DEBUG=pw:browser
       run: npx playwright test --project=${{ inputs.project }} --config ${{ inputs.config-file }}
       env:
-        CI: 'true'
+        CI: 'false'
         PLAYWRIGHT_PORT: ${{ inputs.port }}
         # PLAYWRIGHT_BROWSERS_PATH: ''
         # PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         # PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: 'false'
+
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

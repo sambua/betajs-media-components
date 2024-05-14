@@ -90,9 +90,6 @@ jobs:
         chrome-version: [ latest ] # latest, stable, beta, dev, canary or number like: 119 or 120.0.6099 (https://googlechromelabs.github.io/chrome-for-testing/)
     steps:
       - uses: actions/checkout@v4
-      # - uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '18.x'
 
       - name: Install dependencies and global packages via npm package manager
         id: node
@@ -102,18 +99,16 @@ jobs:
           pkg-manager: 'npm'
           use-cache: 'false'
 
-      # - name: build component
-      #   uses: ./.github/actions/build-component
+      # - name: Run Local Server
+      #   id: local-server
+      #   uses: ./.github/actions/local-server
 
-      - name: Run Local Server
-        id: local-server
-        uses: ./.github/actions/local-server
-
-      # - name: Check the server is running
-      #   uses: jtalk/url-health-check-action@v4
-      #   with:
-      #     url: http://localhost:${{ steps.local-server.outputs.port }}/tests/playwright/html/player.html
-      #     max-attempts: 3
+      - name: Check the server is running
+        uses: jtalk/url-health-check-action@v4
+        if: ${{ inputs.debug == 'true' }}
+        with:
+          url: http://localhost:${{ steps.local-server.outputs.port }}/tests/playwright/html/player.html
+          max-attempts: 3
 
       - name: Run Playwright
         uses: ./.github/actions/playwright-test
@@ -121,6 +116,14 @@ jobs:
           project: ${{ matrix.project }}
           port: ${{ steps.local-server.outputs.port }}
           chrome-version: ${{ matrix.chrome-version }}
+
+      - name: Print was success
+        if: ${{ success() }}
+        run: echo "We have passed all e2e tests"
+
+      - name: Print we have failed
+        if: ${{ failure() }}
+        run: echo "We have failed one for more e2e tests steps"
 
 
       # - name: Run Playwright tests
@@ -130,17 +133,6 @@ jobs:
        # env:
        #   HOME: /root
 
-     # - name: Checkout
-     #   uses: actions/checkout@v4
-     # - name: Run Playwright via Docker container
-     #   id: playwright-image
-     #   uses: ./.github/actions/playwright-image
-     #   with:
-     #     project: ${{ matrix.project }}
-     #     node-version: ${{ matrix.node-version }}
-
-     # - name: Checkout
-     #   uses: actions/checkout@v4
 
      # - name: Set today value
      #   id: date
@@ -155,22 +147,3 @@ jobs:
      #     pkg-manager: ${{ matrix.pkg-manager }}
      #     cache-key: ${{ needs.build.cache-key }}
      #     use-cache: ${{ inputs.use-cache }}
-
-     # - name: Run Local Server
-     #   id: local-server
-     #   uses: ./.github/actions/local-server
-
-     # - name: Run Playwright
-     #   uses: ./.github/actions/playwright-test
-     #   with:
-     #     project: ${{ matrix.project }}
-     #     port: ${{ steps.local-server.outputs.port }}
-     #     chrome-version: ${{ matrix.chrome-version }}
-
-     # - name: Print was success
-     #   if: ${{ success() }}
-     #   run: echo "We have passed all e2e tests"
-
-     # - name: Print we have failed
-     #   if: ${{ failure() }}
-     #   run: echo "We have failed one for more e2e tests steps"

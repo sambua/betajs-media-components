@@ -32,6 +32,7 @@
         "betajs-media": "~0.0.191",
         "betajs-scoped": "~0.0.13",
         "betajs-shims": "~0.0.12",
+        "dotenv": "^16.4.5",
         "grunt": "",
         "grunt-betajs-docs-compile": "~0.0.19",
         "grunt-betajs-templates": "~0.1.11",
