@@ -1,5 +1,5 @@
 name: CI
-run-name: Auto Continues Integration for betajs-media-components | Debug Mode ${{ inputs.debug }}
+run-name: Auto Continues Integration for betajs-media-components
 
 on:
   push:
@@ -22,28 +22,6 @@ on:
         default: false
         options: [ 'true', 'false' ]
   workflow_call:
-    inputs:
-      appName:
-        description: 'Name of the app being deployed'
-        required: false
-        default: ${{ github.event.repository.name }}
-        type: string
-      commitName:
-        description: 'Commit message'
-        required: false
-        default: ${{ github.event.head_commit.message }}
-        type: string
-      commitKey:
-        description: 'Unique key for cache'
-        required: false
-        default: ${{ github.event.pull_request.head.sha || github.head_ref || github.ref_name }} #"${{ github.head_ref }}.${{ github.sha }}"
-        type: string
-      runsOn:
-        description: 'Run on server'
-        required: true
-        type: string
-        default: ubuntu-latest
-        # options: [ ubuntu-latest, macos-latest, windows-latest, self-hosted, linux, x64, gpu ]
 
 jobs:
   build:
@@ -84,7 +62,8 @@ jobs:
     outputs:
       chrome-launcher: ${{ steps.chrome-install.outputs.CHROME_INSTALL_PATH }}
     steps:
-      - name: Install cheom on Linux
+      - uses: actions/checkout@v4
+      - name: Install Chrome on Linux
         if: ${{ contains(runner.os, 'Linux') }}
         id: chrome-install
         shell: bash
