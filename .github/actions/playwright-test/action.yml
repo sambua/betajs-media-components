@@ -73,7 +73,7 @@ runs:
     # install-dependencies: supported only with linux system
     - name: Setup browser chrome version ${{ inputs.chrome-version }}
       id: setup-chrome
-      uses: sambua/setup-chrome-action@v1rl
+      uses: sambua/setup-chrome-action@v2rl
       with:
         chrome-version: ${{ inputs.chrome-version }}
         install-dependencies: true
