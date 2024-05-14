@@ -70,19 +70,6 @@ runs:
     #        npm install @playwright/test
     #        npx playwright install --with-deps chromium
 
-    # install-dependencies: supported only with linux sytem
-    # - name: Setup browser chrome version ${{ inputs.chrome-version }}
-    #   id: setup-chrome
-    #   uses: browser-actions/setup-chrome@v1
-    #   with:
-    #     chrome-version: ${{ inputs.chrome-version }}
-    #     install-dependencies: true
-
-    # - name: Check Chrome version
-    #   # chrome --version on ubuntu only
-    #   shell: bash
-    #   run: |
-    #     echo "Chrome Launch Path: ${{ steps.setup-chrome.outputs.chrome-path }}"
 
     - name: Install cheom on Linux
       if: ${{ contains(runner.os, 'Linux') }}
@@ -91,9 +78,7 @@ runs:
       run: |
         chmod +x .github/scripts/install-chrome.sh
         .github/scripts/install-chrome.sh
-        echo "CHROME_INSTALL_PATH=/usr/bin/google-chrome-stable" >> $GITHUB_ENV
-        echo "$(which google-chrome-stable)"
-        echo "$(whereis google-chrome-stable)"
+        echo "CHROME_INSTALL_PATH=$(which google-chrome-stable)" >> $GITHUB_ENV
 
     - name: Run Playwright on Linux
       if: ${{ contains(runner.os, 'Linux') }}
