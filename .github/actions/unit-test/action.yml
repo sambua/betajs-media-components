@@ -1,7 +1,9 @@
-name: 'Setup Node'
-description: 'Install Node and yarn dependencies'
+name: 'Run Unit tests'
+description: 'Will run unit tests via QUnit'
 
 runs:
   using: "composite"
   steps:
-    - uses: pnpm/action-setup@v3
+    - name: Run Unit tests
+      shell: bash
+      run: echo 'Running unit tests'

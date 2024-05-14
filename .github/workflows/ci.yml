@@ -77,9 +77,25 @@ jobs:
       - name: build component
         uses: ./.github/actions/build-component
 
+
+  install-chrome:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    outputs:
+      chrome-launcher: ${{ steps.chrome-install.outputs.CHROME_INSTALL_PATH }}
+    steps:
+      - name: Install cheom on Linux
+        if: ${{ contains(runner.os, 'Linux') }}
+        id: chrome-install
+        shell: bash
+        run: |
+          chmod +x .github/scripts/install-chrome.sh
+          .github/scripts/install-chrome.sh
+          echo "CHROME_INSTALL_PATH=$(which google-chrome-stable)" >> $GITHUB_ENV
+
   e2e-tests:
     timeout-minutes: 60
-    needs: [ build ]
+    needs: [ build, install-chrome ]
     continue-on-error: false
     runs-on: ubuntu-latest
     # container:
@@ -99,51 +115,32 @@ jobs:
           pkg-manager: 'npm'
           use-cache: 'false'
 
-      # - name: Run Local Server
-      #   id: local-server
-      #   uses: ./.github/actions/local-server
-
-      - name: Check the server is running
-        uses: jtalk/url-health-check-action@v4
-        if: ${{ inputs.debug == 'true' }}
-        with:
-          url: http://localhost:${{ steps.local-server.outputs.port }}/tests/playwright/html/player.html
-          max-attempts: 3
-
       - name: Run Playwright
         uses: ./.github/actions/playwright-test
         with:
           project: ${{ matrix.project }}
           port: ${{ steps.local-server.outputs.port }}
-          chrome-version: ${{ matrix.chrome-version }}
+          chrome-launcher: ${{ needs.install-chrome.outputs.chrome-launcher }}
 
-      - name: Print was success
-        if: ${{ success() }}
-        run: echo "We have passed all e2e tests"
+  unit-tests:
+    timeout-minutes: 10
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ '18.x' ]
+        pkg-manager: [ 'npm' ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Print we have failed
-        if: ${{ failure() }}
-        run: echo "We have failed one for more e2e tests steps"
+      - name: Install dependencies and global packages via npm package manager
+        id: node
+        uses: ./.github/actions/install-dependencies
+        with:
+          version: ${{ matrix.node-version }}
+          pkg-manager: ${{ matrix.pkg-manager }}
+          use-cache: ${{ inputs.use-cache }}
 
-
-      # - name: Run Playwright tests
-      #   shell: bash
-      #   run: |
-      #     npx playwright test --project=${{ matrix.project }} --config ./tests/playwright/config.js
-       # env:
-       #   HOME: /root
-
-
-     # - name: Set today value
-     #   id: date
-     #   uses: ./.github/actions/today
-
-     # - name: Install dependencies and global packages via npm package manager
-     #   id: node
-     #   if: ${{ needs.build.cache-hit == 'false' }}
-     #   uses: ./.github/actions/install-dependencies
-     #   with:
-     #     version: ${{ matrix.node-version }}
-     #     pkg-manager: ${{ matrix.pkg-manager }}
-     #     cache-key: ${{ needs.build.cache-key }}
-     #     use-cache: ${{ inputs.use-cache }}
+      - name: Run unit tests
+        uses: ./.github/actions/run-unit-tests

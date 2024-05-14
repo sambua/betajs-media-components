@@ -4,12 +4,10 @@ description: 'Run e2e tests via chrome browser using playwright'
 inputs:
   project:
     description: Project which will run on testing
-    default: chromium
     required: true
-  chrome-version:
+  chrome-launcher:
     description: 'Chrome version on which all will be tested. Note: canary not supported by linux'
-    default: latest
-    required: false
+    required: true
   config-file:
     description: 'Configuration file for playwright'
     default: './tests/playwright/config.js'
@@ -27,58 +25,23 @@ runs:
       shell: bash
       run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")" >> $GITHUB_ENV
 
-    # - name: Cache playwright binaries
-    #   uses: actions/cache@v4
-    #   id: playwright-cache
-    #   with:
-    #     path: |
-    #       ~/.cache/ms-playwright
-    #       /root/.cache/ms-playwright
-    #     key: "${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}"
-    #     restore-keys: "${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}"
-    #     save-always: true
+    - name: Cache playwright binaries
+      uses: actions/cache@v4
+      id: playwright-cache
+      with:
+        path: |
+          ~/.cache/ms-playwright
+        key: "${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}"
+        restore-keys: "${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}"
+        save-always: true
 
     - name: Install Playwright Test Package
-      # if: steps.playwright-cache.outputs.cache-hit != 'true'
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
       shell: bash
-      # as PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD not works as expected --with-deps chromium also included, not to install all browsers
-      # --cache ~/.cache/ms-playwright
+      # NOTE: PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD not works as expected --with-deps chromium also included, not to install all browsers
       run: |
         npm install @playwright/test
         PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npx playwright install --with-deps chromium
-
-    # - name: Eco some information
-    #   shell: bash
-    #   run: |
-    #     echo "PLAYWRIGHT_VERSION: $PLAYWRIGHT_VERSION"
-    #     echo "RUNNER_OS: $RUNNER_OS"
-    #     echo "LIST SEC: $(ls -la /root/.cache/ms-playwright/chromium-1117/chrome-linux)"
-
-
-      # /Users/runner/Library/Caches/ms-playwright/chromium-1117/chrome-linux
-      # /Users/runner/Library/Caches/ms-playwright/chromium-1117/chrome-mac
-      # /Users/runner/Library/Caches/ms-playwright/chromium-1117/chrome-mac/Chromium.app/Contents/MacOS/Chromium
-
-    #    - run: npx playwright install-deps
-    #      if: steps.playwright-cache.outputs.cache-hit == 'true'
-
-    #    - name: Install browser dependencies and skip browser download
-    #      # npx playwright install-deps chromium or # --with-deps chromium
-    #      # PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npx playwright install # << Seems PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD not working as expected
-    #      # install-deps chromium
-    #      run: |
-    #        npm install @playwright/test
-    #        npx playwright install --with-deps chromium
-
-
-    - name: Install cheom on Linux
-      if: ${{ contains(runner.os, 'Linux') }}
-      id: chrome-install
-      shell: bash
-      run: |
-        chmod +x .github/scripts/install-chrome.sh
-        .github/scripts/install-chrome.sh
-        echo "CHROME_INSTALL_PATH=$(which google-chrome-stable)" >> $GITHUB_ENV
 
     - name: Run Playwright on Linux
       if: ${{ contains(runner.os, 'Linux') }}
@@ -88,10 +51,7 @@ runs:
         CI: 'true'
         PLAYWRIGHT_PORT: ${{ inputs.port }}
         PLAYWRIGHT_BROWSERS_PATH: ''
-        PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ env.CHROME_INSTALL_PATH }}
-        PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ env.CHROME_INSTALL_PATH }}
-        # PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
-        # PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        PLAYWRIGHT_CHROME_LAUNHER: ${{ inputs.chrome-launcher }}
         PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: 'false'
 
     - name: Run Playwright on Mac OS
@@ -102,9 +62,8 @@ runs:
       env:
         CI: 'true'
         PLAYWRIGHT_PORT: ${{ inputs.port }}
-        # PLAYWRIGHT_BROWSERS_PATH: ''
-        # PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: "${{ steps.setup-chrome.outputs.chrome-path }}"
-        # PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: "${{ steps.setup-chrome.outputs.chrome-path }}"
+        PLAYWRIGHT_BROWSERS_PATH: ''
+        PLAYWRIGHT_CHROME_LAUNHER: "${{ inputs.chrome-launcher }}"
         PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: 'false'
 
     - uses: actions/upload-artifact@v4

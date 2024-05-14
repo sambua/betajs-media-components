@@ -1,17 +1,13 @@
 import { chromium } from '@playwright/test';
-import { CHROME_CANARY_LOCATION, CHROME_LOCATION } from '../consts.js';
+import { CHROME_LAUNCH_PATH } from '../consts.js';
 require('dotenv').config();
-
-const CI = process.env?.CI === true || process.env?.CI === "true";
 
 export default async (args, func, browserSettings) => {
     const { page, browserName, browser, context } = args;
 
-    if (!CI && (CHROME_CANARY_LOCATION || CHROME_LOCATION)) {
-      browserSettings.executablePath = CHROME_CANARY_LOCATION || CHROME_LOCATION;
+    if (!browserSettings.executablePath && CHROME_LAUNCH_PATH) {
+      browserSettings.executablePath = CHROME_LAUNCH_PATH;
     }
-    browserSettings.executablePath = CHROME_CANARY_LOCATION || CHROME_LOCATION;
-    console.log(`browserSettings: `, browserSettings);
 
     if (browserName === 'chromium') {
         await (async () => {
