@@ -10,6 +10,8 @@ export default async (args, func, browserSettings) => {
     if (!CI && (CHROME_CANARY_LOCATION || CHROME_LOCATION)) {
       browserSettings.executablePath = CHROME_CANARY_LOCATION || CHROME_LOCATION;
     }
+    browserSettings.executablePath = CHROME_CANARY_LOCATION || CHROME_LOCATION;
+    console.log(`browserSettings: `, browserSettings);
 
     if (browserName === 'chromium') {
         await (async () => {
