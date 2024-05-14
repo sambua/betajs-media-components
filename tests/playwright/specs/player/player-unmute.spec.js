@@ -60,9 +60,6 @@ test.describe('Unmute on click behave', () => {
 
             if (!hasAdsSource) throw new Error(`We need ad tag URL to proceed`);
 
-            // const h2Header = await page.getByTestId(`h2-header`);
-            // expect(h2Header).toBeVisible();
-
             const playerContainer = await page.getByTestId(`${dataTestId}-player-container`);
             const contentPlayerContainer = await page.getByTestId(`${dataTestId}-content-player-container`);
 
@@ -165,11 +162,13 @@ test.describe('Unmute on click behave', () => {
             const unmuteOnClick = await player.getPlayerAttribute(`unmuteonclick`)
             expect(unmuteOnClick).toBeTruthy();
 
-            const muteButton = page.getByTestId(`${dataTestId}-volume-mute-button`);
             const unMuteButton = page.getByTestId(`${dataTestId}-volume-unmute-button`);
             const pauseButton = page.getByTestId(`${dataTestId}-content-pause-button`);
             const playButton = page.getByTestId(`${dataTestId}-content-play-button`);
             const volumeMuteButton = page.getByTestId(`${dataTestId}-volume-mute-button`);
+
+            const h2Header = await page.getByTestId(`h2-header`);
+            expect(h2Header).toBeVisible();
 
             await expect(unMuteButton).toBeVisible();
 
@@ -187,7 +186,7 @@ test.describe('Unmute on click behave', () => {
             await playButton.click();
 
             // Unmute will take some time to reflect
-            await expect(muteButton).toBeVisible();
+            await expect(volumeMuteButton).toBeVisible();
             isMuted = await player.getPlayerAttribute("muted");
             expect(isMuted).toBeFalsy();
             let volume = await player.getPlayerAttribute("volume");
@@ -202,7 +201,7 @@ test.describe('Unmute on click behave', () => {
             await expect(unMuteButton).toBeVisible();
             await unMuteButton.click();
 
-            await expect(muteButton).toBeVisible();
+            await expect(volumeMuteButton).toBeVisible();
             volume = await player.getPlayerAttribute("volume");
             expect(volume).toBeGreaterThan(0);
             isMuted = await player.getPlayerAttribute("muted");
