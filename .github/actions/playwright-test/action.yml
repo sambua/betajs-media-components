@@ -101,7 +101,7 @@ runs:
       # DEBUG=pw:browser
       run: npx playwright test --project=${{ inputs.project }} --config ${{ inputs.config-file }}
       env:
-        CI: 'false'
+        CI: 'true'
         PLAYWRIGHT_PORT: ${{ inputs.port }}
         # PLAYWRIGHT_BROWSERS_PATH: ''
         # PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}

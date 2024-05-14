@@ -29,7 +29,7 @@ const config = {
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-      [process.env.CI ? 'dot' : 'list', {
+      [CI ? 'dot' : 'list', {
           stdout: true, outputFile: './reports/list-results.txt'
       }],
       ['json', { outputFile: './reports/json-results.json' }],
@@ -83,15 +83,11 @@ const config = {
       //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
       // },
   ],
-}
-
-if (!CI) {
-  /* Run your local dev server before starting the tests */
-  config.webServer = {
+  webServer: {
     // npm install -g http-server && `http-server ./ -p ${PORT} > http-server.log 2>&1 &`
     command: `node ../../node_modules/nano-media-server/server.js --staticserve ../../ --port='${PORT}'`,
     // url: `http://127.0.0.1:${PORT}`,
-    reuseExistingServer: true,
+    reuseExistingServer: !CI,
   }
 }
 
