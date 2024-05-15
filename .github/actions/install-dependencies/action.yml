@@ -86,6 +86,7 @@ runs:
         npm install -g dotenv
         npm install -g http-server
         npm install -g qunit
+        npm install -g qunit-cli
         npm install -g jsdom
 
 #    - name: Cache Node Modules
