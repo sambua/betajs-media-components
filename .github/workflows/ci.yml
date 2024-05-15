@@ -104,7 +104,7 @@ jobs:
 
   unit-tests:
     timeout-minutes: 10
-    # needs: [ build ]
+    needs: [ build ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -116,7 +116,7 @@ jobs:
 
       - name: Install dependencies and global packages via npm package manager
         id: node
-        # if: ${{ needs.build.outputs.cache-hit == 'false' }}
+        if: ${{ needs.build.outputs.cache-hit == 'false' }}
         uses: ./.github/actions/install-dependencies
         with:
           version: ${{ matrix.node-version }}
