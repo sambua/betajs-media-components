@@ -9,7 +9,7 @@ runs:
       # if [[ $failure == "0" ]]; then exit 1; fi  # on fail command echo failure
       run: |
         echo 'Running unit tests'
-        qunit-cli ./tests/qunit/index.js
+        qunit ./tests/qunit/index.js
         echo "FAILED: $($failed)"
         if [[ $failed > "0" ]];
           then exit 0; # on fail command echo failure
