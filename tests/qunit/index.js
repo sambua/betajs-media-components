@@ -13,11 +13,11 @@ fs.readdirSync(specsFolder).forEach(file => {
 });
 
 QUnit.done((report) => {
-  console.log(`After all test passed: `,report);
-  // const { failed, passed, runtime, total } = report;
+  const { failed, passed, runtime, total } = report;
   // process.env.QUNIT_TOTAL = total;
   // process.env.QUNIT_FAILED = failed;
   // process.env.QUNIT_PASSED = passed;
+  console.log(`After all test passed: `,report);
   process.exit(failed);
 });
 
