@@ -61,12 +61,12 @@ QUnit.testDone( function( details ) {
         `; \nFailed: ${details.failed} / Total: ${details.total}`
     );
     console.log(`export failed=${details.failed};`);
-    // if (details.failed > 0) {
-    //     QUnit.config.queue.length = 0;
-    //     process.exit(1, `Test failed on: ${details.module} - ${details.name}`);
-    // }
-    // if (details.name === "last test") {
-    //     QUnit.config.queue.length = 0;
-    //     process.exit(0);
-    // }
+    if (details.failed > 0) {
+        QUnit.config.queue.length = 0;
+        process.exit(1, `Test failed on: ${details.module} - ${details.name}`);
+    }
+    if (details.name === "last test") {
+        QUnit.config.queue.length = 0;
+        process.exit(0);
+    }
 });
