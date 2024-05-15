@@ -1,6 +1,6 @@
 const { test } = require('qunit');
-const { initPlayer, BetaJS } = require('../init');
-const deepCheck = require("../utils/deepCheck");
+const { initPlayer, BetaJS } = require('../../init');
+const deepCheck = require("../../utils/deepCheck");
 const { Objs, Types, Comparators } = BetaJS;
 
 const attrs = {
