@@ -38,7 +38,7 @@ jobs:
   #       shell: bash
   #   strategy:
   #     matrix:
-  #       node-version: [ '18.x' ]
+  #       node-version: [ '21.x' ]
   #       pkg-manager: [ 'npm' ]
   #   steps:
   #     - name: Checkout
@@ -88,9 +88,10 @@ jobs:
 
   #     - name: Install dependencies and global packages via npm package manager
   #       id: node
+  #       if: ${{ needs.build.outputs.cache-hit == 'false' }}
   #       uses: ./.github/actions/install-dependencies
   #       with:
-  #         version: '18.x'
+  #         version: '21.x'
   #         pkg-manager: 'npm'
   #         use-cache: 'false'
 
@@ -115,6 +116,7 @@ jobs:
 
       - name: Install dependencies and global packages via npm package manager
         id: node
+        # if: ${{ needs.build.outputs.cache-hit == 'false' }}
         uses: ./.github/actions/install-dependencies
         with:
           version: ${{ matrix.node-version }}
