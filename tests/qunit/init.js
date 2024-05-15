@@ -1,4 +1,4 @@
-const { JSDOM } = require("jsdom");
+const { JSDOM } = require("jsdom-latest");
 const ResizeObserver = require('resize-observer-polyfill');
 
 const dom = new JSDOM('<!DOCTYPE html>');

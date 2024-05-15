@@ -13,7 +13,7 @@ inputs:
     default: './tests/playwright/config.js'
     required: false
   port:
-    description: 'Port where local server will be run, should be the same as .env.actions'
+    description: 'Port where local server will be run'
     default: '5000'
     required: false
 
