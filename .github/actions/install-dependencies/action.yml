@@ -85,7 +85,7 @@ runs:
         npm install -g grunt
         npm install -g dotenv
         npm install -g http-server
-        npm install grunt
+        npm install -g qunit
 
 #    - name: Cache Node Modules
 #      id: node-modules-cache
