@@ -107,7 +107,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [ '21.x' ]
+        node-version: [ '21.x' ] # Lower will not support as per: "ReferenceError: navigator is not defined"
         pkg-manager: [ 'npm' ]
     steps:
       - name: Checkout
