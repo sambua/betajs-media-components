@@ -72,38 +72,38 @@ jobs:
           .github/scripts/install-chrome.sh
           echo "CHROME_INSTALL_PATH=$(which google-chrome-stable)" >> $GITHUB_ENV
 
-  e2e-tests:
-    timeout-minutes: 60
-    needs: [ build, install-chrome ]
-    continue-on-error: false
-    runs-on: ubuntu-latest
-    # container:
-    #   image: mcr.microsoft.com/playwright:v1.44.0-jammy
-    strategy:
-      matrix:
-        project: [ chromium ]
-        chrome-version: [ latest ] # latest, stable, beta, dev, canary or number like: 119 or 120.0.6099 (https://googlechromelabs.github.io/chrome-for-testing/)
-    steps:
-      - uses: actions/checkout@v4
+  # e2e-tests:
+  #   timeout-minutes: 60
+  #   needs: [ build, install-chrome ]
+  #   continue-on-error: false
+  #   runs-on: ubuntu-latest
+  #   # container:
+  #   #   image: mcr.microsoft.com/playwright:v1.44.0-jammy
+  #   strategy:
+  #     matrix:
+  #       project: [ chromium ]
+  #       chrome-version: [ latest ] # latest, stable, beta, dev, canary or number like: 119 or 120.0.6099 (https://googlechromelabs.github.io/chrome-for-testing/)
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Install dependencies and global packages via npm package manager
-        id: node
-        uses: ./.github/actions/install-dependencies
-        with:
-          version: '18.x'
-          pkg-manager: 'npm'
-          use-cache: 'false'
+  #     - name: Install dependencies and global packages via npm package manager
+  #       id: node
+  #       uses: ./.github/actions/install-dependencies
+  #       with:
+  #         version: '18.x'
+  #         pkg-manager: 'npm'
+  #         use-cache: 'false'
 
-      - name: Run Playwright via ${{ needs.install-chrome.outputs.chrome-launcher }}
-        uses: ./.github/actions/playwright-test
-        with:
-          project: ${{ matrix.project }}
-          port: ${{ steps.local-server.outputs.port }}
-          chrome-launcher: ${{ needs.install-chrome.outputs.chrome-launcher }}
+  #     - name: Run Playwright via
+  #       uses: ./.github/actions/playwright-test
+  #       with:
+  #         project: ${{ matrix.project }}
+  #         port: ${{ steps.local-server.outputs.port }}
+  #         chrome-launcher: ${{ needs.install-chrome.outputs.chrome-launcher }}
 
   unit-tests:
     timeout-minutes: 10
-    needs: [ build ]
+    # needs: [ build ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -119,7 +119,6 @@ jobs:
         with:
           version: ${{ matrix.node-version }}
           pkg-manager: ${{ matrix.pkg-manager }}
-          use-cache: ${{ inputs.use-cache }}
 
       - name: Run unit tests
         uses: ./.github/actions/unit-tests

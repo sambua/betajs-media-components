@@ -6,4 +6,12 @@ runs:
   steps:
     - name: Run Unit tests
       shell: bash
-      run: echo 'Running unit tests'
+      # if [[ $failure == "0" ]]; then exit 1; fi  # on fail command echo failure
+      run: |
+        echo 'Running unit tests'
+        qunit ./tests/qunit
+        if [[ $failed > "0" ]];
+          then exit 1; # on fail command echo failure
+        else
+          then exit 0; # on success command echo success
+        fi

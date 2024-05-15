@@ -84,10 +84,10 @@ const config = {
       // },
   ],
   webServer: {
-    command: `npm run demos -- --port='${PORT}'`,
     // npm install -g http-server && `http-server ./ -p ${PORT} > http-server.log 2>&1 &`
     // command: `node ../../node_modules/nano-media-server/server.js --staticserve ../../ --port='${PORT}'`,
     // url: `http://127.0.0.1:${PORT}`,
+    command: `npm run demos -- --port='${PORT}'`,
     reuseExistingServer: !CI,
   }
 }
