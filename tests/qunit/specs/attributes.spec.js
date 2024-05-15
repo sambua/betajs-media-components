@@ -75,7 +75,7 @@ test("test user set attributes correctness", (assert) => {
                         }
                     }
                 else
-                    assert.notEqual(player.get(k), v, `${k} is ${JSON.stringify(v)}`);
+                    assert.equal(player.get(k), v, `${k} is ${JSON.stringify(v)}`);
             }
         }
     });
