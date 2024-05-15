@@ -28,6 +28,17 @@ components.forEach((component) => {
     require(component);
 });
 
+// Below is the polyfill for HTMLMediaElement, as it's not available in JSDOM
+// this will prevent console the error when running the tests.
+// But should be careful when using this polyfill, as it's not the real implementation
+// and may cause the test to pass even if the real implementation is not working.
+// We have pass these test on real browser via playwright to make sure it's working correctly
+// if these are really needed we can implement: https://github.com/jsdom/jsdom/issues/2155#issuecomment-581862425
+window.HTMLMediaElement.prototype.load = () => { /* do nothing */ };
+window.HTMLMediaElement.prototype.play = () => { /* do nothing */ };
+window.HTMLMediaElement.prototype.pause = () => { /* do nothing */ };
+window.HTMLMediaElement.prototype.addTextTrack = () => { /* do nothing */ };
+
 const init = (attrs) => {
     const player = new BetaJS.MediaComponents.VideoPlayer.Dynamics.Player({
         element: container,
