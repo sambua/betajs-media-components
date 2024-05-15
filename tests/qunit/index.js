@@ -4,13 +4,34 @@ const specsFolder = require("path").join(__dirname, "specs");
 
 QUnit.module('Player');
 
-fs.readdirSync(specsFolder).forEach(file => {
-    if (file.match(/\.spec.js$/) === null) {
-        console.log(`Skipping ${file} as it's not ends with .spec.js`);
-    } else {
-      require(specsFolder + '/' + file);
+const includeFiles = (dir, file) => {
+    file = file || [];
+    const inputs = fs.readdirSync(dir);
+    for (var i in inputs) {
+        var name = dir + '/' + inputs[i];
+        if (fs.statSync(name).isDirectory()){
+            includeFiles(name, file);
+        } else {
+            file.push(name);
+            if (name.match(/\.spec.js$/) === null) {
+                console.log(`Skipping ${name} as it's not ends with .spec.js`);
+            } else {
+              require(name);
+            }
+        }
     }
-});
+    return file;
+}
+
+includeFiles(specsFolder);
+
+// fs.readdirSync(specsFolder).forEach(file => {
+//     if (file.match(/\.spec.js$/) === null) {
+//         console.log(`Skipping ${file} as it's not ends with .spec.js`);
+//     } else {
+//       require(specsFolder + '/' + file);
+//     }
+// });
 
 QUnit.done((report) => {
   const { failed, passed, runtime, total } = report;
