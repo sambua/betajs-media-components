@@ -1,6 +1,5 @@
 import { chromium } from '@playwright/test';
 import { CHROME_LAUNCH_PATH } from '../consts.js';
-require('dotenv').config();
 
 export default async (args, func, browserSettings) => {
     const { page, browserName, browser, context } = args;

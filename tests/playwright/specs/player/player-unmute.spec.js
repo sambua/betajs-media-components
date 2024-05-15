@@ -22,7 +22,7 @@ test.describe('Unmute on click behave', () => {
     const browserSettings = {
         // args: [`--user-data-dir="/tmp/chrome_dev_test"`, '--disable-web-security'],
         headless: false, // If headless is true, player will start with user interaction
-        devtools: !process.env.CI,
+        devtools: !process.env?.CI,
     }
 
     test.describe.configure({
