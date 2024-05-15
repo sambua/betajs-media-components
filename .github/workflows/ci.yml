@@ -92,7 +92,8 @@ jobs:
         with:
           version: '21.x'
           pkg-manager: 'npm'
-          use-cache: 'false'
+          use-cache: ${{ inputs.use-cache }}
+          cache-key: ${{ needs.build.outputs.cache-key }}
 
       - name: Run Playwright via
         uses: ./.github/actions/playwright-test
@@ -119,6 +120,8 @@ jobs:
         with:
           version: ${{ matrix.node-version }}
           pkg-manager: ${{ matrix.pkg-manager }}
+          use-cache: ${{ inputs.use-cache }}
+          cache-key: ${{ needs.build.outputs.cache-key }}
 
       - name: Run unit tests
         uses: ./.github/actions/unit-tests
