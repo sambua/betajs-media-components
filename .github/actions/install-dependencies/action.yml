@@ -19,7 +19,7 @@ inputs:
     required: true
   pkg-manager:
     description: 'The package manager cli'
-    default: 'pnpm'
+    default: 'npm'
     required: false
   key:
     description: 'Key for the cache'
@@ -49,13 +49,13 @@ runs:
       shell: bash
       run: echo "package-cache-dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
 
-    # - uses: actions/cache@v4
-    #   id: node-modules-cache
-    #   if: ${{ inputs.use-cache == 'true' }}
-    #   with:
-    #     path: ${{ steps.cache-dir.outputs.package-cache-dir }}
-    #     key: ${{ inputs.cache-key }}
-    #     restore-keys: ${{ inputs.cache-key }}
+    - uses: actions/cache@v4
+      id: node-modules-cache
+      if: ${{ inputs.use-cache == 'true' }}
+      with:
+        path: ${{ steps.cache-dir.outputs.package-cache-dir }}
+        key: ${{ inputs.cache-key }}
+        restore-keys: ${{ inputs.cache-key }}
 
     - name: Install ${{ inputs.pkg-manager }} Package manager
       if: ${{ inputs.pkg-manager == 'pnpm' }}
@@ -73,13 +73,8 @@ runs:
       if: ${{ inputs.pkg-manager == 'npm' }}
       run: npm set cache .npm && npm ci
 
-    - name: Install JavaScript dependencies via ${{ inputs.pkg-manager  }}
-      shell: bash
-      if: ${{ inputs.pkg-manager == 'yarn' }}
-      run: yarn install --frozen-lockfile
-
     - name: Install global packages
-      if: ${{ inputs.pkg-manager == 'npm' }}
+      if: ${{ inputs.pkg-manager == 'npm' && steps.node-modules-cache.outputs.cache-hit != 'true' }}
       shell: bash
       run: |
         npm install -g grunt
@@ -87,20 +82,3 @@ runs:
         npm install -g http-server
         npm install -g qunit
         npm install -g jsdom
-
-#    - name: Cache Node Modules
-#      id: node-modules-cache
-#      uses: actions/cache@v4
-#      save-always: true
-#      if: matrix.pkg-manager == 'npm'
-#      with:
-#        path: ~/.npm
-#        key: node-modules-${{ hashFiles('package-lock.json') }}
-
-#    - name: Create node_modules cache
-#      uses: actions/cache@v4
-#      with:
-#        path: |
-#          ~/.npm
-#          node_modules
-#        key: ${{ inputs.key }}

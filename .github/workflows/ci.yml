@@ -88,7 +88,6 @@ jobs:
 
       - name: Install dependencies and global packages via npm package manager
         id: node
-        if: ${{ needs.build.outputs.cache-hit == 'false' }}
         uses: ./.github/actions/install-dependencies
         with:
           version: '21.x'
@@ -116,7 +115,6 @@ jobs:
 
       - name: Install dependencies and global packages via npm package manager
         id: node
-        if: ${{ needs.build.outputs.cache-hit == 'false' }}
         uses: ./.github/actions/install-dependencies
         with:
           version: ${{ matrix.node-version }}
