@@ -74,6 +74,3 @@ runs:
           tests/playwright/output/
           tests/playwright/reports/
         retention-days: 30
-
-#      npm install @playwright/test
-#      npm install --global http-server
