@@ -33,7 +33,7 @@ if (!isRealBrowser) {
     language: "en",
     isTouchable: 'false'
   }
-  // global.window.navigator = global.navigator;
+  global.window.navigator = global.navigator;
 
   // Below is the polyfill for HTMLMediaElement, as it's not available in JSDOM
   // this will prevent console the error when running the tests.
