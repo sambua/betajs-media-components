@@ -118,5 +118,7 @@ QUnit.done((report) => {
 });
 
 module.exports = {
-  BetaJS, container, QUnit, initPlayer
+  QUnit,
+  BetaJS,
+  initPlayer: initPlayer
 }
