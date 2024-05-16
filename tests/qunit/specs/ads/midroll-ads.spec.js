@@ -1,9 +1,9 @@
 const { test } = require("qunit");
-const setPlayer = require("../../player");
+const { initPlayer } = require("../../index");
 
 const interVal = 7;
 const playerDuration = 60;
-const player = setPlayer({
+const player = initPlayer({
 	adsposition: `mid[${interVal}*]`,
 	duration: playerDuration
 });

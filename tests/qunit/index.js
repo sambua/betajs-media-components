@@ -68,6 +68,15 @@ components.forEach((component) => {
 let container = document.createElement('div');
 document.body.appendChild(container);
 
+const initPlayer = (attrs) => {
+   const player = new BetaJS.MediaComponents.VideoPlayer.Dynamics.Player({
+       element: container,
+       attrs: attrs || {}
+   });
+   player.activate();
+   return player;
+}
+
 
 QUnit.module('Player');
 
@@ -107,5 +116,5 @@ QUnit.done((report) => {
 });
 
 module.exports = {
-  BetaJS, container, QUnit
+  BetaJS, container, QUnit, initPlayer
 }
