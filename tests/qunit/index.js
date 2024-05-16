@@ -32,7 +32,6 @@ if (!isRealBrowser) {
     window_opera: 'false',
     language: "en",
     isTouchable: 'false'
-
   }
   // global.window.navigator = global.navigator;
 
@@ -64,6 +63,9 @@ const components = [
 components.forEach((component) => {
     require(component);
 });
+
+window.BetaJS = BetaJS;
+global.BetaJS = BetaJS;
 
 let container = document.createElement('div');
 document.body.appendChild(container);
