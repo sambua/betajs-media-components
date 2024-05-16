@@ -1,5 +1,5 @@
-const { test } = require("qunit");
-const { initPlayer } = require("../../index");
+// const { test } = require("qunit");
+const { initPlayer, QUnit: { test } } = require("../../index");
 
 const interVal = 7;
 const playerDuration = 60;

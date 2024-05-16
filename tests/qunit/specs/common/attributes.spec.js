@@ -1,5 +1,4 @@
-const { test }= require("qunit");
-const { BetaJS, initPlayer } = require('../../index');
+const { BetaJS, initPlayer, QUnit: { test } } = require('../../index');
 const deepCheck = require("../../utils/deepCheck");
 const { Objs, Types, Comparators } = BetaJS;
 
