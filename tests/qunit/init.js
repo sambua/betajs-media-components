@@ -12,11 +12,12 @@ global.document = window.document;
 
 if (!isRealBrowser) {
   global.ResizeObserver = ResizeObserver;
-  global.nav = {
-    ...(window.nav || {}),
+  global.navigator = {
+    ...(window.navigator || {}),
+    // this is deprecated but still used in the code
     appVersion: 'mac'
   }
-  global.window.nav = global.nav;
+  global.window.navigator = global.navigator;
 
   // Below is the polyfill for HTMLMediaElement, as it's not available in JSDOM
   // this will prevent console the error when running the tests.
