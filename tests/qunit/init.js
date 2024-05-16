@@ -15,9 +15,20 @@ if (!isRealBrowser) {
   global.navigator = {
     ...(window.navigator || {}),
     // this is deprecated but still used in the code
-    appVersion: 'mac'
+    appCodeName: 'Mozilla',
+    appName: 'Netscape',
+    appVersion: 'mac-17.0',
+    cookieEnabled: 'false',
+    onLine: 'true',
+    platform: 'MacIntel',
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:17.0) Gecko/20100101 Firefox/17.0',
+    window_chrome: 'false',
+    window_opera: 'false',
+    language: "en",
+    isTouchable: 'false'
+
   }
-  global.window.navigator = global.navigator;
+  // global.window.navigator = global.navigator;
 
   // Below is the polyfill for HTMLMediaElement, as it's not available in JSDOM
   // this will prevent console the error when running the tests.
