@@ -82,26 +82,6 @@ const initPlayer = (attrs) => {
 
 QUnit.module('Player');
 
-const includeFiles = (dir, file) => {
-    file = file || [];
-    const inputs = fs.readdirSync(dir);
-    for (var i in inputs) {
-        var name = dir + '/' + inputs[i];
-        if (fs.statSync(name).isDirectory()){
-            includeFiles(name, file);
-        } else {
-            file.push(name);
-            if (name.match(/\.spec.js$/) === null) {
-                console.log(`Skipping ${name} as it's not ends with .spec.js`);
-            } else {
-              require(name);
-            }
-        }
-    }
-    return file;
-}
-if (process.env?.CI) includeFiles(specsFolder);
-
 QUnit.testDone((details) => {
   console.log(`Details: `, details);
 });
@@ -115,6 +95,26 @@ QUnit.done((report) => {
   console.log(`After all test passed: `,report);
   process.exit(failed);
 });
+
+const includeFiles = (dir, file) => {
+    file = file || [];
+    const inputs = fs.readdirSync(dir);
+    for (var i in inputs) {
+        var name = dir + '/' + inputs[i];
+        if (fs.statSync(name).isDirectory()){
+            includeFiles(name, file);
+        } else {
+            file.push(name);
+            if (name.match(/\.spec.js$/) === null) {
+                console.log(`Skipping ${name} as it's not ends with .spec.js`);
+            } else {
+              require(name)(QUnit.test, initPlayer, BetaJS);
+            }
+        }
+    }
+    return file;
+}
+includeFiles(specsFolder);
 
 module.exports = {
   QUnit,
