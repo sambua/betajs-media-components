@@ -1,4 +1,4 @@
-const { test }= require("qunit");
+const { test } = require("qunit");
 const { initPlayer, BetaJS } = require("../../init");
 
 const interVal = 7;
