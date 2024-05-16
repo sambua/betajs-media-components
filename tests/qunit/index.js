@@ -22,6 +22,7 @@ const includeFiles = (dir, file) => {
     }
     return file;
 }
+console.log(`CI: `, process.env?.CI);
 if (process.env?.CI) includeFiles(specsFolder);
 
 QUnit.testDone((details) => {
