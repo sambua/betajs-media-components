@@ -1,4 +1,4 @@
- const { BetaJS, container } = require('./init');
+ const { BetaJS, container } = require('./index');
 
  const runner = (attrs) => {
     const player = new BetaJS.MediaComponents.VideoPlayer.Dynamics.Player({
