@@ -49,16 +49,16 @@ if (!isRealBrowser) {
 }
 
 // If you require call with -noscoped
-// const Scoped = require('../../node_modules/betajs-scoped/dist/scoped.js');
-// window.Scoped = Scoped;
+const Scoped = require('../../node_modules/betajs-scoped/dist/scoped.js');
+window.Scoped = Scoped;
 
-const BetaJS = require('../../node_modules/betajs/dist/beta.js');
+const BetaJS = require('../../node_modules/betajs/dist/beta-noscoped.js');
 const components = [
     '../../node_modules/betajs-shims/dist/betajs-shims.js',
-    '../../node_modules/betajs-browser/dist/betajs-browser.js',
-    '../../node_modules/betajs-media/dist/betajs-media.js',
-    '../../node_modules/betajs-dynamics/dist/betajs-dynamics.js',
-    '../../dist/betajs-media-components.js',
+    '../../node_modules/betajs-browser/dist/betajs-browser-noscoped.js',
+    '../../node_modules/betajs-media/dist/betajs-media-noscoped.js',
+    '../../node_modules/betajs-dynamics/dist/betajs-dynamics-noscoped.js',
+    '../../dist/betajs-media-components-noscoped.js',
 ];
 
 components.forEach((component) => {

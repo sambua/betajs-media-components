@@ -1,4 +1,4 @@
-const { BetaJS } = require('../init');
+const { BetaJS } = require('../index');
 const { Objs, Types } = BetaJS;
 
 module.exports = (assert, player, key, value, _attrs) => {
