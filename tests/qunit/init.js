@@ -5,14 +5,18 @@ const dom = new JSDOM('<!DOCTYPE html>');
 const { window } = dom;
 const document = window.document;
 
-window.nav = {
-  appVersion: 'mac'
-}
+const isRealBrowser = Object.getOwnPropertyDescriptor(globalThis, 'window')?.get?.toString().includes('[native code]') ?? false
 
 global.window = window;
 global.document = window.document;
-global.ResizeObserver = ResizeObserver;
-global.nav = window.nav;
+
+if (!isRealBrowser) {
+  global.ResizeObserver = ResizeObserver;
+  window.nav = {
+    appVersion: 'mac'
+  }
+  global.nav = window.nav;
+}
 
 // If you require call with -noscoped
 // const Scoped = require('../../node_modules/betajs-scoped/dist/scoped.js');
