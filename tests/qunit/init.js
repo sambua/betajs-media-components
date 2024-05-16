@@ -10,7 +10,8 @@ const isRealBrowser = Object.getOwnPropertyDescriptor(globalThis, 'window')?.get
 global.window = window;
 global.document = window.document;
 
-if (!isRealBrowser) {
+console.log(`Not real device...`, isRealBrowser);
+// if (!isRealBrowser) {
   global.ResizeObserver = ResizeObserver;
   window.nav = {
     appVersion: 'mac'
@@ -27,7 +28,7 @@ if (!isRealBrowser) {
   window.HTMLMediaElement.prototype.play = () => { /* do nothing */ };
   window.HTMLMediaElement.prototype.pause = () => { /* do nothing */ };
   window.HTMLMediaElement.prototype.addTextTrack = () => { /* do nothing */ };
-}
+// }
 
 // If you require call with -noscoped
 // const Scoped = require('../../node_modules/betajs-scoped/dist/scoped.js');
