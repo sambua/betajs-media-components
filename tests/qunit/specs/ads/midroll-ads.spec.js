@@ -1,9 +1,9 @@
 const { test } = require("qunit");
-const { initPlayer, BetaJS } = require("../../init");
+const setPlayer = require("../../player");
 
 const interVal = 7;
 const playerDuration = 60;
-const player = initPlayer({
+const player = setPlayer({
 	adsposition: `mid[${interVal}*]`,
 	duration: playerDuration
 });

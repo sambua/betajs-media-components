@@ -43,22 +43,11 @@ const components = [
     '../../dist/betajs-media-components.js',
 ];
 
-let container = document.createElement('div');
-document.body.appendChild(container);
 components.forEach((component) => {
     require(component);
 });
 
-const init = (attrs) => {
-    const player = new BetaJS.MediaComponents.VideoPlayer.Dynamics.Player({
-        element: container,
-        attrs: attrs || {}
-    });
-    player.activate();
-    return player;
-}
+let container = document.createElement('div');
+document.body.appendChild(container);
 
-module.exports = {
-    BetaJS,
-    initPlayer: init,
-};
+module.exports = { BetaJS, container };
