@@ -16,7 +16,7 @@ if (!isRealBrowser) {
     ...(window.nav || {}),
     appVersion: 'mac'
   }
-  global.nav = window.nav;
+  global.window.nav = global.nav;
 
   // Below is the polyfill for HTMLMediaElement, as it's not available in JSDOM
   // this will prevent console the error when running the tests.
