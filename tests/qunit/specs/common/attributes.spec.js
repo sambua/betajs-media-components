@@ -1,9 +1,10 @@
-const deepCheck = require('../../utils/deepCheck');
+const { BetaJS, QUnit: { test } } = require('../../index');
+const deepCheck = require("../../utils/deepCheck");
+const initPlayer = require("../../utils/initPlayer");
 
-module.exports = (test, initPlayer, BetaJS) => {
-  const { Objs, Types, Comparators } = BetaJS;
+const { Objs, Types, Comparators } = BetaJS;
 
-  const attrs = {
+const attrs = {
     width: 200,
     height: '100px',
     autoplay: true,
@@ -91,4 +92,3 @@ test("test preset attributes correctness", assert => {
         assert.ok(false, "Preset attributes are not defined");
     }
 });
-}

@@ -1,39 +1,54 @@
-const fs = require("fs");
 const path = require("path");
 const QUnit = require("qunit");
-const { JSDOM } = require("jsdom-latest");
+const { JSDOM, ResourceLoader } = require("jsdom-recent");
+const includeSpecs = require("./utils/includeSpecs.js");
 
 const ResizeObserver = require('resize-observer-polyfill');
 
-const specsFolder = path.join(__dirname, "specs");
-
-const dom = new JSDOM('<!DOCTYPE html>');
-const { window } = dom;
-const document = window.document;
-
+// typeof process === 'object' && process.title === 'node';
+// typeof window === 'object' && window.name === 'nodejs';
+// typeof navigator === 'object' && navigator.userAgent === 'node.js';
 const isRealBrowser = Object.getOwnPropertyDescriptor(globalThis, 'window')?.get?.toString().includes('[native code]') ?? false
+const navOptions = {
+   appCodeName: 'Mozilla',
+   appName: 'Netscape',
+   appVersion: 'mac-17.0',
+   cookieEnabled: 'false',
+   onLine: 'true',
+   platform: 'MacIntel',
+   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:17.0) Gecko/20100101 Firefox/17.0',
+   window_chrome: 'false',
+   window_opera: 'false',
+   language: "en",
+   isTouchable: 'false'
+};
+
+if (!isRealBrowser) {
+
+  global.ResizeObserver = ResizeObserver;
+  const loader = new ResourceLoader(navOptions);
+
+  jsDomOptions = {
+    runScripts: 'dangerously',
+    resources: loader,
+  }
+}
+
+const { window } = new JSDOM('<!DOCTYPE html>');
 
 global.window = window;
 global.document = window.document;
 
 if (!isRealBrowser) {
-  global.ResizeObserver = ResizeObserver;
-  global.navigator = {
-    ...(window.navigator || {}),
-    // this is deprecated but still used in the code
-    appCodeName: 'Mozilla',
-    appName: 'Netscape',
-    appVersion: 'mac-17.0',
-    cookieEnabled: 'false',
-    onLine: 'true',
-    platform: 'MacIntel',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:17.0) Gecko/20100101 Firefox/17.0',
-    window_chrome: 'false',
-    window_opera: 'false',
-    language: "en",
-    isTouchable: 'false'
-  }
-  global.window.navigator = global.navigator;
+
+  // Globally set the navigator object's missing properties gloablly
+  Object.keys(navOptions).forEach((key) => {
+    Object.defineProperty(global.navigator, key, {
+      configurable: true,
+      writable: true,
+      value: navOptions[key]
+    });
+  });
 
   // Below is the polyfill for HTMLMediaElement, as it's not available in JSDOM
   // this will prevent console the error when running the tests.
@@ -46,6 +61,7 @@ if (!isRealBrowser) {
   window.HTMLMediaElement.prototype.pause = () => { /* do nothing */ };
   window.HTMLMediaElement.prototype.addTextTrack = () => { /* do nothing */ };
 }
+
 
 // If you require call with -noscoped
 const Scoped = require('../../node_modules/betajs-scoped/dist/scoped.js');
@@ -70,20 +86,8 @@ global.BetaJS = BetaJS;
 let container = document.createElement('div');
 document.body.appendChild(container);
 
-const initPlayer = (attrs) => {
-   const player = new BetaJS.MediaComponents.VideoPlayer.Dynamics.Player({
-       element: container,
-       attrs: attrs || {}
-   });
-   player.activate();
-   return player;
-}
-
-
-QUnit.module('Player');
-
-QUnit.testDone((details) => {
-  console.log(`Details: `, details);
+QUnit.module('Player', {
+  before: () => includeSpecs(path.join(__dirname, './specs')),
 });
 
 QUnit.done((report) => {
@@ -96,28 +100,8 @@ QUnit.done((report) => {
   process.exit(failed);
 });
 
-const includeFiles = (dir, file) => {
-    file = file || [];
-    const inputs = fs.readdirSync(dir);
-    for (var i in inputs) {
-        var name = dir + '/' + inputs[i];
-        if (fs.statSync(name).isDirectory()){
-            includeFiles(name, file);
-        } else {
-            file.push(name);
-            if (name.match(/\.spec.js$/) === null) {
-                console.log(`Skipping ${name} as it's not ends with .spec.js`);
-            } else {
-              require(name)(QUnit.test, initPlayer, BetaJS);
-            }
-        }
-    }
-    return file;
-}
-includeFiles(specsFolder);
-
 module.exports = {
   QUnit,
   BetaJS,
-  initPlayer: initPlayer
+  container
 }

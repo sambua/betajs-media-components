@@ -1,5 +1,6 @@
+const { test } = require("qunit");
+const initPlayer = require("../../utils/initPlayer");
 
-module.exports = (test, initPlayer) => {
 const interVal = 7;
 const playerDuration = 60;
 
@@ -26,4 +27,3 @@ test("test midroll ads positions count", assert => {
 	reset();
 	assert.notEqual(player.get("midrollads")[0]?.poster, Math.floor(playerDuration / 2), "mid-rolls should be in the duration middle");
 });
-}
