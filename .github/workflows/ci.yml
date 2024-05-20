@@ -132,20 +132,10 @@ jobs:
           use-cache: ${{ inputs.use-cache }}
           cache-key: ${{ needs.build.outputs.cache-key }}
 
-      - name: Remove old build folder
-        run: rm -rf dist
-
-      - name: Restore previously stored build folder, artifact ID ${{ needs.build.outputs.build-artifact }}}
-        uses: actions/download-artifact@v4
-        if: ${{ !cancelled() }}
+      - name: Restore build folder
+        uses: ./.github/actions/restore-build-folder
         with:
           name: build
-          path: dist
-
-      - name: list files in dist
-        run: |
-          ls -la
-          ls -la dist
 
       - name: Run unit tests
         uses: ./.github/actions/unit-tests
