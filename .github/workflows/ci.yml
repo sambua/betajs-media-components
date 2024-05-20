@@ -143,7 +143,9 @@ jobs:
           path: dist
 
       - name: list files in dist
-        run: ls -la dist
+        run: |
+          ls -la
+          ls -la dist
 
       - name: Run unit tests
         uses: ./.github/actions/unit-tests
