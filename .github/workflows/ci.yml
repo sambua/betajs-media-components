@@ -32,6 +32,7 @@ jobs:
       cache-hit: ${{ steps.node.outputs.cache-hit }}
       cache-key: ${{ steps.node.outputs.cache-key }}
       package-cache-dir: ${{ steps.node.outputs.package-cache-dir }}
+      build-artifact: ${{ steps.build-artifact.outputs.artifact-id }}
     defaults:
       run:
         working-directory: .
@@ -54,6 +55,14 @@ jobs:
 
       - name: build component
         uses: ./.github/actions/build-component
+
+      - name: Store build folrder to be able to use in other jobs
+        uses: actions/upload-artifact@v4
+        id: build-artifact
+        if: ${{ !cancelled() }}
+        with:
+          name: build
+          path: dist
 
 
   # install-chrome:
@@ -122,6 +131,20 @@ jobs:
           pkg-manager: ${{ matrix.pkg-manager }}
           use-cache: ${{ inputs.use-cache }}
           cache-key: ${{ needs.build.outputs.cache-key }}
+
+      - name: Remove old build folder
+        run: rm -rf dist
+
+      - name: Restore previously stored build folder
+        uses: actions/download-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: ${{ needs.build.outputs.build-artifact }}}
+          path: dist
+          overwrite: true
+
+      - name: list files in dist
+        run: ls -la dist
 
       - name: Run unit tests
         uses: ./.github/actions/unit-tests
