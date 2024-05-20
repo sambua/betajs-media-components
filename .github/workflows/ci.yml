@@ -24,36 +24,36 @@ on:
   workflow_call:
 
 jobs:
-  # build:
-  #   timeout-minutes: 10
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     node-version: ${{ matrix.node-version }}
-  #     cache-hit: ${{ steps.node.outputs.cache-hit }}
-  #     cache-key: ${{ steps.node.outputs.cache-key }}
-  #     package-cache-dir: ${{ steps.node.outputs.package-cache-dir }}
-  #   defaults:
-  #     run:
-  #       working-directory: .
-  #       shell: bash
-  #   strategy:
-  #     matrix:
-  #       node-version: [ '21.x' ]
-  #       pkg-manager: [ 'npm' ]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  build:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    outputs:
+      node-version: ${{ matrix.node-version }}
+      cache-hit: ${{ steps.node.outputs.cache-hit }}
+      cache-key: ${{ steps.node.outputs.cache-key }}
+      package-cache-dir: ${{ steps.node.outputs.package-cache-dir }}
+    defaults:
+      run:
+        working-directory: .
+        shell: bash
+    strategy:
+      matrix:
+        node-version: [ '21.x' ]
+        pkg-manager: [ 'npm' ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Install dependencies and global packages via npm package manager
-  #       id: node
-  #       uses: ./.github/actions/install-dependencies
-  #       with:
-  #         version: ${{ matrix.node-version }}
-  #         pkg-manager: ${{ matrix.pkg-manager }}
-  #         use-cache: ${{ inputs.use-cache }}
+      - name: Install dependencies and global packages via npm package manager
+        id: node
+        uses: ./.github/actions/install-dependencies
+        with:
+          version: ${{ matrix.node-version }}
+          pkg-manager: ${{ matrix.pkg-manager }}
+          use-cache: ${{ inputs.use-cache }}
 
-  #     - name: build component
-  #       uses: ./.github/actions/build-component
+      - name: build component
+        uses: ./.github/actions/build-component
 
 
   # install-chrome:
