@@ -111,9 +111,6 @@ jobs:
         node-version: [ '21.x' ]
         pkg-manager: [ 'npm' ]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Install dependencies and global packages via npm package manager
         id: node
         uses: ./.github/actions/install-dependencies
