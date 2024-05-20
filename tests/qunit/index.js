@@ -1,7 +1,6 @@
 const path = require("path");
 const QUnit = require("qunit");
 const { JSDOM, ResourceLoader } = require("jsdom-recent");
-const includeSpecs = require("./utils/includeSpecs.js");
 
 const ResizeObserver = require('resize-observer-polyfill');
 
@@ -86,9 +85,7 @@ global.BetaJS = BetaJS;
 let container = document.createElement('div');
 document.body.appendChild(container);
 
-QUnit.module('Player', {
-  before: () => includeSpecs(path.join(__dirname, './specs')),
-});
+QUnit.module('Player');
 
 QUnit.done((report) => {
   const { failed, passed, runtime, total } = report;
