@@ -103,7 +103,7 @@ jobs:
 
   unit-tests:
     timeout-minutes: 10
-    # needs: [ build ]
+    needs: [ build ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
