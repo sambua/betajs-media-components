@@ -135,13 +135,12 @@ jobs:
       - name: Remove old build folder
         run: rm -rf dist
 
-      - name: Restore previously stored build folder
+      - name: Restore previously stored build folder, artifact ID ${{ needs.build.outputs.build-artifact }}}
         uses: actions/download-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: ${{ needs.build.outputs.build-artifact }}}
+          name: build
           path: dist
-          overwrite: true
 
       - name: list files in dist
         run: ls -la dist
