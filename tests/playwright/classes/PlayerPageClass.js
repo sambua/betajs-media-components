@@ -1,10 +1,8 @@
-const { expect } = require('@playwright/test')
+const { expect } = require('@playwright/test');
 import createOptions from '../utils/create-options';
 import {
-    ASSETS_PATH, PLAYER_URI, SAMPLE_VIDEO_POSTER,
-    SAMPLE_2_VIDEO_POSTER, SAMPLE_3_VIDEO_POSTER
+    PLAYER_URI, SAMPLE_2_VIDEO_POSTER, SAMPLE_3_VIDEO_POSTER
 } from '../consts.js';
-
 
 class PlayerPage {
 

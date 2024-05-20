@@ -1,0 +1,13 @@
+name: 'Run Unit tests'
+description: 'Will run unit tests via QUnit'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Unit tests
+      shell: bash
+      # if [[ $failure == "0" ]]; then exit 1; fi  # on fail command echo failure
+      # qunit --require './tests/qunit/index.js' './tests/qunit/specs/**/**.spec.js'
+      run: |
+        echo 'Running unit tests'
+        npm run test:unit

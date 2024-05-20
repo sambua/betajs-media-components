@@ -1244,6 +1244,7 @@ Scoped.define("module:VideoPlayer.Dynamics.Player", [
                 },
 
                 initMidRollAds: function() {
+                    console.log(`HELLO FORM initMidRollAds AAAAAA`);
                     var schedules;
                     // Split all via comma exclude inside brackets
                     schedules = Objs.map(this.get("adsposition").split(/(?![^)(]*\([^)(]*?\)\)),(?![^\[]*\])/), function(item) {
